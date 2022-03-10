@@ -1,0 +1,2865 @@
+\documentclass[11pt]{article}
+%===============================================================================
+%	DOCUMENT STYLE
+%===============================================================================
+\usepackage{declare-style-article}
+\usepackage{declare-maths-article}
+\usepackage{declare-text-article}
+\usepackage{declare-theorems-article}
+\hypersetup{
+	pdfauthor 
+		= {Nikita Nikolaev},
+	pdftitle 
+		= {Gevrey Asymptotic Existence and Uniqueness Theorem},
+	pdfsubject
+		= {},
+	pdfcreator
+		= {},
+	pdfproducer
+		= {},
+	pdfkeywords
+		= {exact perturbation theory, singular perturbation theory, Borel summation, Borel-Laplace theory, asymptotic analysis, Gevrey asymptotics, resurgence, exact WKB analysis, nonlinear ODEs, existence and uniqueness},
+}
+
+%===============================================================================
+%	LOCAL DEFINITIONS
+%===============================================================================
+\DeclareSymbolFont{bbold}{U}{bbold}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbbold}{bbold}
+
+\usepackage{appendix}
+\usepackage[font={footnotesize}]{caption}
+\usepackage[utf8]{inputenc}
+\linespread{1.15}
+
+% perturbation theory order index
+\newcommand{\pto}[1]{\text{\tiny$(#1)$}}
+
+\fancypagestyle{frontpage}{
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\cfoot{}
+\lfoot{\footnotesize 
+First Appeared: 12 January 2022\\
+Contact: \href{mailto:n.nikolaev@sheffield.ac.uk}{n.nikolaev@sheffield.ac.uk}}
+}
+
+\usepackage{titletoc}
+\usepackage{subcaption}
+\usepackage{changepage}
+
+\titlecontents*{subsubsection}
+  [5em]
+  {\scriptsize\itshape}
+  {}
+  {}
+  {}
+  [\:\|\:]
+  []
+  
+\newcommand{\ii}{{\bm{i}}}
+\newcommand{\jj}{{\bm{j}}}
+\renewcommand{\kk}{{\bm{k}}}
+\renewcommand{\mm}{{\bm{m}}}
+\renewcommand{\nn}{{\bm{n}}}
+
+
+\newcommand{\MSCSubjectCode}[1]{\href{https://zbmath.org/classification/?q=cc\%3A#1}{#1}}
+
+  
+%===============================================================================
+%:	CHANGES in THIS VERSION
+%===============================================================================
+  
+%- added a few more sentences about WKB in the introduction
+%- fixed typos
+%- added mention of turning points
+%- changed some wording in the introduction
+%- added a couple of historic references
+
+
+%===============================================================================
+%===============================================================================
+%:	DOCUMENT BEGINS
+%===============================================================================
+%===============================================================================
+\begin{document}
+
+%===============================================================================
+%:	TITLE PAGE
+%===============================================================================
+
+\title{Gevrey Asymptotic \\ Existence and Uniqueness Theorem}
+
+\author{Nikita Nikolaev}
+
+\affil{\small School of Mathematics and Statistics, University of Sheffield, United Kingdom}
+
+%\date{DRAFT: \today ~\|~ NOT FOR DISTRIBUTION}
+\date{14 January 2022}
+
+\maketitle
+\thispagestyle{frontpage}
+
+\begin{abstract}
+\noindent
+We prove a general Asymptotic Existence and Uniqueness Theorem for singularly perturbed nonlinear first-order complex-analytic systems of differential equations of the form $\hbar \del_x f = \FF (x, \hbar, f)$ in the setting of Gevrey asymptotics as $\hbar \to 0$.
+The unique analytic solution is the Borel resummation of the corresponding formal power series solution.
+\end{abstract}
+
+{\small
+\textbf{Keywords:}
+exact perturbation theory, singular perturbation theory, Borel summation, Borel-Laplace theory, asymptotic analysis, Gevrey asymptotics, resurgence, exact WKB analysis, nonlinear ODEs, existence and uniqueness
+
+\textbf{2020 MSC:} 
+	\MSCSubjectCode{34M60} (primary),
+	\MSCSubjectCode{34M04},
+%	\MSCSubjectCode{34M25},
+	\MSCSubjectCode{34M30},
+%	\MSCSubjectCode{34E10},
+	\MSCSubjectCode{34E15},
+	\MSCSubjectCode{34E20},
+	\MSCSubjectCode{34A12},
+	\MSCSubjectCode{34A34}
+}
+
+%===============================================================================
+%:	TOC
+%===============================================================================
+
+{\begin{spacing}{0.9}
+\small
+\setcounter{tocdepth}{3}
+\tableofcontents
+\end{spacing}
+}
+
+\newpage
+%===============================================================================
+%===============================================================================
+%===============================================================================
+\section{Introduction}
+%===============================================================================
+%===============================================================================
+%===============================================================================
+
+Consider the following first-order singularly perturbed differential equation:
+\eqntag{\label{211211103217}
+	\hbar \del_x f = \FF (x, \hbar, f)
+\fullstop{,}
+}
+where $\FF$ is an $\NN$-dimensional holomorphic vector function of a single complex variable $x$, a small complex perturbation parameter $\hbar$, and the unknown holomorphic $\NN$-dimensional vector function $f = f(x,\hbar)$.
+Suppose $\FF$ is a polynomial in $\hbar$, or more generally admits an asymptotic expansion as $\hbar \to 0$ in some sector.
+
+The main problem we solve here is to construct \textit{canonical exact solutions} of \eqref{211211103217} away from turning points; i.e., actual holomorphic solutions $f = f (x,\hbar)$ that are \textit{uniquely} specified by formal $\hbar$-power series solutions $\hat{f} = \hat{f} (x,\hbar)$ such that $\hat{f}$ is the asymptotic expansion of $f$ as $\hbar \to 0$.
+This is a fundamental problem in what may be referred to as \textit{exact perturbation theory}; i.e., singular perturbation theory supplemented with techniques from resurgent asymptotic analysis.
+
+Thus, we prove an Asymptotic Existence and Uniqueness Theorem for singular perturbation problems of the form \eqref{211211103217}.
+We emphasise that our main result is not only about existence but also about uniqueness in a precise sense.
+In particular, this canonical exact solution $f$ is the Borel resummation of the formal $\hbar$-power series solution $\hat{f}$.
+This is a remarkable property that permits one to readily deduce a lot of refined information about the typically highly transcendental solution $f$ from the explicitly defined formal solution $\hat{f}$.
+
+%===============================================================================
+\paragraph{Motivation.}
+Existence and uniqueness theory for first-order ODEs is obviously a very well developed subject which can also be analysed in the presence of a parameter like $\hbar$ (e.g., \cite[Theorem 24.1]{MR0460820}).
+However, it gives no information about the behaviour of solutions near $\hbar = 0$.
+Attempting to solve an equation like \eqref{211211103217} by expanding it in powers of $\hbar$ generically leads to divergent power series solutions.
+This is a typical phenomenon in singular perturbation theory.
+
+The Asymptotic Existence Theorem (e.g., \cite[Theorem 26.1]{MR0460820} or \cite[Chapter XII]{MR1697415}) plays a starring role in the classical theory of analytic differential equations.
+It guarantees that if a differential equation like \eqref{211211103217} has a formal $\hbar$-power series solution $\hat{f}$, then under certain assumptions on $\FF$ the power series $\hat{f}$ is the asymptotic expansion as $\hbar \to 0$ of an actual solution $f$.
+However, this celebrated theory comes with a number of significant disadvantages.
+
+The most striking drawback is the inability to draw any uniqueness conclusion: the obtained actual solution $f$ is unreservedly not unique.
+The reason is that asymptotic expansions cannot detect the so-called exponential corrections (i.e., analytic functions with zero asymptotic expansions) and the classical techniques underpinning the Asymptotic Existence Theorem are ill-adapted to the recovery of such exponential corrections.
+This situation is only made worse by the fact that the classical techniques provide little control on the size of the sectorial domain of definition of the obtained actual solution $f$ (e.g., see the remark in \cite[p.144]{MR0460820}, immediately following Theorem 26.1), rendering it virtually impossible to describe the set of all possible such actual solutions in any reasonable manner.
+
+\newpage\mbox{}
+\vspace{-30pt}
+
+We reverberate the opinion of Ramis and Sibuya \cite{MR991416} that in the theory of complex-analytic differential equations (with or without a complex perturbation parameter), the more appropriate notion of asymptotic expansions is Gevrey asymptotics rather than the more classical theory in the sense of Poincaré.
+The aforementioned work of Ramis and Sibuya is in connection with solutions of complex-analytic differential equations near an irregular singularity, but the same point of view is apparent in other related subjects including (to only cite a few) the works of Écalle on resurgent functions \cite{EcalleCinqApplications,zbMATH03971144} and of Malgrange, Martinet, and Ramis on analytic diffeomorphisms \cite{MR689526,MR740592}.
+
+In the present context of singular perturbation theory, this point of view is especially reinforced by the success of the exact WKB method \cite{MR729194, MR819680, MR2074707, MR2182990, MR3003931, MR3280000, MY210623112236}.
+In fact, one of our main motivations is to finally establish rigorous exact WKB analysis for higher-order singularly perturbed differential equations and more general linear differential systems or meromorphic connections on Riemann surfaces.
+In that problem, a canonical exact solution of a differential equation \eqref{211211103217} defines a holomorphic gauge transformation (over a Stokes region in the $x$-plane and a sector in the $\hbar$-plane with good asymptotics as $\hbar \to 0$) that puts a given differential system into an upper-triangular form, thereby defining a basis of exact WKB solutions.
+This construction was established in a special case in \cite{nikolaev2019triangularisation}.
+
+
+
+
+
+
+\enlargethispage{10pt}
+%===============================================================================
+\paragraph{Brief Overview of the Main Result.}
+To get a feel for what this paper is about, let us first give a brief narrative account of our results without delving into too much detail or generality.
+Our main results are described in full detail in \autoref{220222154343}.
+
+For the purposes of this greatly simplified discussion, suppose that $\FF = \FF (x, \hbar, y)$ is actually constant in $\hbar$ and polynomial in both $x$ and $y$.
+The leading-order part in $\hbar$ of the differential equation \eqref{211211103217} is then simply the functional equation $\FF (x, y) = 0$.
+Such situations are not artificial: examples where the righthand side of equation \eqref{211211103217} has no explicit dependance on $\hbar$ are ubiquitous, yet they already require most of the power of our main result.
+For example, singularly perturbed Painlevé I-IV equations are precisely of this form (see \autoref{220222152734}).
+
+Suppose $(x_0, y_0)$ is a point such that $\FF (x_0, y_0) = 0$ and the Jacobian $\del \FF \big/ \del y$ is invertible at $(x_0, y_0)$.
+This is a familiar hypothesis from the ordinary Implicit Function Theorem which guarantees the existence of a holomorphic solution $y = f_0 (x)$ near the point $x_0$ satisfying $f_0 (x_0) = y_0$.
+Slightly less familiar is the Formal Existence and Uniqueness Theorem (\autoref{211209161918}) which says that under this hypothesis, equation \eqref{211211103217} has a unique formal $\hbar$-power series solution $\hat{f} = \hat{f} (x, \hbar)$ with holomorphic coefficients defined near $x_0$ whose leading-order part is $f_0$.
+All the higher-order terms of $\hat{f}$ are uniquely determined by $f_0$ through an explicit recursion.
+
+Generically, $\hat{f}$ is a divergent power series and therefore has no direct analytic meaning.
+The main goal of this paper is to promote in a \textit{canonical} way the formal solution $\hat{f}$ to an \textit{exact solution} $f$; i.e., an actual holomorphic solution such that $\hat{f}$ is the asymptotic expansion of $f$ as $\hbar \to 0$ in some sector $S_0 \subset \Complex_\hbar$.
+In order to construct such an exact solution $f$ in a unique way, the opening angle of the sector $S_0$ is required to be at least $\pi$.
+For simplicity, let us focus on sectors $S_0$ bisected by the positive real axis.
+%For simplicity, let us say that $S$ is the right halfplane $\set{\Re (\hbar) > 0}$.
+
+Consider the holomorphic invertible matrix $\JJ_0$ near the point $x_0$ defined as the Jacobian $\del \FF \big/ \del y$ evaluated at the leading-order solution $f_0$; i.e., $\JJ_0 \coleq \del \FF \big/ \del y\big(x, f_0 (x)\big)$.
+%Next, we define a holomorphic invertible matrix near the point $x_0$ by
+%\vspace{-7.5pt}
+%\eqntag{\label{220111195222}
+%	\JJ_0 (x) \coleq \evat{\frac{\del \FF}{\del y}}{\big(x, f_0 (x)\big)}
+%\fullstop
+%\vspace{-7.5pt}
+%}
+Points where $\JJ_0$ fails to be invertible are often called \textit{turning points}.
+These points are avoided in our analysis.
+Let $\lambda_1, \ldots, \lambda_\NN$ be the eigenvalues of $\JJ_0$, assumed to be all distinct.
+They are nonvanishing holomorphic functions near $x_0$.
+
+One of the innovations in this paper is to impose the following nontrivial and nonlocal geometric assumption.
+Consider the possibly multivalued locally conformal transformations given by
+\vspace{-10pt}
+\eqntag{\label{220111195226}
+	w = \Phi_i (x) \coleq \int\nolimits_{x_0}^x \lambda_i (t) \dd{t}
+\fullstop
+\vspace{-5pt}
+}
+They are closely related to the Liouville transformation encountered in the WKB analysis of the Schrödinger equation; see, e.g., \cite[§4.1]{MY210623112236} or \cite[§6.1]{MR1429619}.
+Notice also that turning points are precisely the points where one of these transformations fails to be conformal, which is one of the main reasons our analysis breaks down at turning points.
+We assume that for each $i$, the point $x_0$ has a neighbourhood $W_i \subset \Complex_x$ which is mapped by the transformation $\Phi_i$ to a horizontal halfstrip $H = \set{w ~\big|~ \op{dist} (w, \Real_+) < \epsilon} \subset \Complex_w$, and such that the $i$-th component $\FF^i$ of $\FF$ is appropriately bounded on $W_i$ by the eigenvalue $\lambda_i$.
+
+\enlargethispage{15pt}
+
+Our main result (\autoref{211211131327}) then implies that the differential equation \eqref{211211103217} has a canonical exact solution $f$ near $x_0$ which is asymptotic to $\hat{f}$ as $\hbar \to 0$ in the right halfplane.
+Namely, there is a neighbourhood $X_0 \subset \Complex_x$ of $x_0$ and a sector $S_0 \subset \Complex_\hbar$ with opening $(-\tfrac{\pi}{2},+\tfrac{\pi}{2})$ such that \eqref{211211103217} has a unique holomorphic solution $f$ on $X_0 \times S_0$ which is uniformly Gevrey asymptotic to $\hat{f}$ as $\hbar \to 0$ in the closed right halfplane:
+\vspace{-5pt}
+\begin{equation}
+\label{220222184439}
+	f \simeq \hat{f}
+\qqquad
+	\text{as $\hbar \to 0$ in the closed right halfplane, unif. $\forall x \in X_0$\fullstop}
+\vspace{-5pt}
+\end{equation}
+Moreover, $f$ is the uniform Borel resummation of the formal solution $\hat{f}$; i.e., $f$ can be written as the Laplace transform
+\vspace{-7.5pt}
+\eqntag{\label{220222163921}
+	f 
+		= \cal{S} \big[ \, \hat{f} \, \big]
+		\coleq f_0 + \Laplace \big[ \, \lambda \, \big]
+		= f_0 + \int\nolimits_0^{+\infty} e^{\xi/\hbar} \lambda \dd{\xi}
+\fullstop{,}
+\vspace{-5pt}
+}
+where $\lambda$ is the Borel transform of the formal solution $\hat{f}$:
+\vspace{-5pt}
+\eqntag{\label{220222163924}
+	\lambda = \lambda (x, \xi) 
+		\coleq \mathfrak{B} \big[ \, \hat{f} \, \big] (x, \xi)
+		= \sum_{k=0}^\infty \tfrac{1}{k!} f_{k+1} (x) \xi^k
+\fullstop
+\vspace{-5pt}
+}
+We prove in \autoref{211218192134} that the Borel transform $\lambda$ is a convergent power series at the origin in the Borel plane $\Complex_\xi$.
+The bulk of the construction of the exact solution $f$, presented in \autoref{220112110800}, is to show that $\lambda$ can be analytically continued along the positive real axis such that the Laplace integral in \eqref{220222163921} is well-defined.
+
+To construct the analytic continuation of $\lambda$, we use the transformations $\Phi_i$ to make a convenient change of variables in order to bring the differential equation \eqref{211211103217} to a certain standard form which is more amenable to the Borel transform.
+Applying the Borel transform, we obtain a nonlinear partial integro-differential equation.
+Using another simple change of variables, we convert it into an integral which we then proceed to solve using the method of successive approximations.
+To show that this sequence of approximations converges to an actual solution, we give an estimate on its terms by employing in an interesting way the ordinary Holomorphic Implicit Function Theorem.
+This estimate also allows us to conclude that the solution of this PDE has a well-defined Laplace transform and therefore defines a holomorphic solution of our equation.
+
+%===============================================================================
+\paragraph{Remarks and discussion.}
+Our constructions employ relatively basic and classical techniques from complex analysis which form the basis for the more modern and sophisticated theory of resurgent asymptotic analysis à la Écalle \cite{zbMATH03971144}; see also for instance \cite{MR2474083,sauzin2014introduction,MR3495546}.
+Namely, we use the Borel-Laplace method which is briefly reviewed in \autoref{211215123550}.
+We stress that the Borel-Laplace method ``is nothing other than the theory of Laplace transforms, written in slightly different variables'', echoing the words of Alan Sokal \cite{MR558468}.
+As such, we have tried to keep our presentation very hands-on and self-contained, so the knowledge of basic complex analysis should be sufficient to follow.
+
+What we call \textit{Gevrey asymptotics} is often called \textit{$1$-Gevrey asymptotics}.
+It is part of an entire hierarchy of asymptotic regularity classes, first introduced by Watson \cite{zbMATH02629428} and further developed by Nevanlinna \cite{nevanlinna1918theorie}.
+See \cite{MR542737,MR579749} as well as \cite[§1.2]{MR3495546} and \cite[§XI-2]{MR1697415}.
+However, arguments about other Gevrey classes can usually be reduced to arguments about $1$-Gevrey asymptotics via a simple fractional transformation in the $\hbar$-space.
+Therefore, we believe it is not difficult to extend our results to all other Gevrey asymptotic classes.
+We leave this as a natural open problem.
+
+We emphasise that the asymptotic condition \eqref{220222184439} on the holomorphic solution $f$ holds in the \textit{closed} halfplane, which is stronger than ordinary Gevrey asymptotics in the right halfplane (see \autoref{211215123326} or \cite[§A.5 and §A.16]{MY2008.06492}).
+This type of condition is specifically adapted to the Borel-Laplace method, in particular through the application of Nevanlinna's theorem, see \autoref{211215123550}.
+
+Our proof represents a combination of techniques developed in \cite{MY2008.06492} (where a special case of \autoref{211211131327} for the scalar Riccati equation is proved) and \cite{MY211216122156} but many of the ideas underpinning all these works originated in \cite{nikolaev2019triangularisation}.
+However, this paper is self-contained and does not rely on the results in these references.
+
+\vspace{-5pt}
+
+%===============================================================================
+\paragraph{Notation and conventions.}
+\label{211214170249}
+A brief summary of our notation, conventions, and definitions from Gevrey asymptotics and Borel-Laplace theory can be found in \autoref{211215112252}.
+Throughout the paper, we fix a complex plane $\Complex_x$ with coordinate $x$ and another complex plane $\Complex_\hbar$ with coordinate $\hbar$.
+$\Real_+$ denotes the nonnegative real ray.
+We also fix a complex vector space $\Complex^\NN_y$ with coordinate $y = (y_1, \ldots, y_\NN)$ for $\NN \geq 1$.
+We write vector components of holomorphic maps as $\FF = (\FF^1, \ldots, \FF^\NN)$, etc.
+The symbol $\Natural$ stands for nonnegative integers $0, 1, 2, \ldots$.
+We will use boldface letters to denote nonnegative integer index vectors; i.e., $\mm \coleq (m_1, \ldots, m_\NN) \in \Natural^\NN$, etc., and we put $|\mm| \coleq m_1 + \cdots + m_\NN$.
+Unless otherwise indicated, all sums over unbolded indices $n, m, \ldots$ are taken to run over $\Natural$, and all sums over boldface letters $\nn, \mm, \ldots$ are taken to run over $\Natural^\NN$.
+
+\enlargethispage{15pt}
+
+%===============================================================================
+\paragraph*{Acknowledgements.}
+The author wishes to thank Dylan Allegretti, Alberto García-Raboso, Marco Gualtieri, Kohei Iwaki, Olivier Marchal, Andrew Neitzke, Nicolas Orantin, Kento Osuga, and Shinji Sasaki for helpful discussions during various stages of this project.
+Special thanks go to Marco Gualtieri for the many suggestions to improve the manuscript.
+This work was supported by the EPSRC Programme Grant \textit{Enhancing RNG}.
+
+
+
+\newpage
+
+%===============================================================================
+%===============================================================================
+%===============================================================================
+\section{Main Results and Examples}
+\label{220222154343}
+%===============================================================================
+%===============================================================================
+%===============================================================================
+
+%===============================================================================
+%===============================================================================
+%\subsection{Main Setting}
+%===============================================================================
+%===============================================================================
+
+%===============================================================================
+\paragraph{Background assumptions.}
+\label{220223113827}
+Let $X \subset \Complex_x$ be any domain and fix a point $(x_0, y_0) \in X \times \Complex^\NN_y$.
+Let $S \subset \Complex_\hbar$ be either an open neighbourhood of the origin or a sectorial domain with vertex at the origin and opening arc $A$.
+Consider the differential equation \eqref{211211103217}, which is
+\eqntag{\label{220305143824}
+	\hbar \del_x f = \FF (x, \hbar, f)
+\fullstop{,}
+\tag{1}
+}
+where $\FF = \FF (x, \hbar, y)$ is a holomorphic map $X \times S \times \Complex_y^\NN \to \Complex^\NN$.
+If $S$ is an open neighbourhood of the origin, let
+\eqntag{\label{220223140518}
+	\hat{\FF} (x, \hbar, y) \coleq \sum_{k=0}^\infty \FF_k (x, y) \hbar^k
+}
+be its power series expansion in $\hbar$ at the origin, where $\FF_k : X \times \Complex^\NN_y \to \Complex^\NN$ are holomorphic maps.
+If $S$ is a sectorial domain, then we assume in addition that $\FF$ admits $\hat{\FF}$ as a locally uniform asymptotic expansion
+\eqntag{\label{220222193719}
+	\FF (x, \hbar, y) \sim \hat{\FF} (x, \hbar, y)
+\quad
+\text{as $\hbar \to 0$ along $A$, loc.unif $\forall (x,y)$\fullstop}
+}
+
+%===============================================================================
+\begin{example}[Deformed Painlevé I]{220222152734}
+For any $c \in \Complex$, consider the following singularly perturbed equation for $q$:
+\eqntag{\label{220222153708}
+	\hbar^2 \del^2_x q = 6 q^2 + x + c\hbar
+\fullstop
+}
+Notice that this is an $\hbar$-deformed Painlevé I equation: indeed, setting $\hbar = 1$ and $c = 0$, this is the usual Painlevé I.
+This nonlinear second-order scalar ODE can be written as a first-order nonlinear system of the form \eqref{211211103217}; namely, by introducing another variable $p \coleq \hbar \del_x q$, equation \eqref{220222153708} is equivalent to
+\eqntag{\label{220222154018}
+	\hbar \del_x \mtx{q \\ p} = \mtx{ p \\ 6q^2 + x + c\hbar}
+\fullstop
+}
+Thus, the map $\FF$ from the righthand side of \eqref{211211103217} is
+\eqn{
+	\FF (x, y) 
+		= \mtx{y_2 \\ 6 y_1^2 + x + c\hbar}
+\fullstop
+}
+In this case, $X = \Complex_x$, $S = \Complex_\hbar$, $\NN = 2$, and $\FF$ is a polynomial in $\hbar$:
+\eqn{
+	\FF (x, y) = \hat{\FF} (x, y) = \FF_0 (x,y) + \FF_1 (x,y)
+\fullstop{,}
+}
+\eqn{
+	\FF_0 (x,y) = \mtx{y_2 \\ 6 y_1^2 + x}
+\qtext{and}
+	\FF_1 (x,y) = \mtx{0 \\ c}
+\fullstop
+}
+\end{example}
+
+%===============================================================================
+%===============================================================================
+\subsection{Formal Perturbation Theory}
+%===============================================================================
+%===============================================================================
+
+%===============================================================================
+%\paragraph{}
+The starting point in our analysis of equation \eqref{220305143824} is to construct its formal solutions, expressed in the following relatively well-known formal existence and uniqueness theorem (see, e.g., \cite[Theorem XII-5-2]{MR1697415}).
+
+%==============================
+\begin{thm}[Formal Existence and Uniqueness Theorem]{211209161918}
+\mbox{}\\
+Consider the setting of \autoref{220223113827}.
+Suppose in addition that 
+%==============================
+\begin{itemise}
+\item [\textup{(A1)}] $\FF_0 (x_0, y_0) = 0$ and the Jacobian $\del \FF_0 \big/ \del y$ is invertible at $(x_0, y_0)$.
+\end{itemise}
+Then there is a subdomain $X_0 \subset X$ containing $x_0$ such that the differential equation \eqref{211211103217} has a unique formal power series solution
+\eqntag{\label{220223141023}
+	\hat{f} = \hat{f} (x, \hbar) = \sum_{n=0}^\infty f_n (x) \hbar^n
+}
+with holomorphic coefficients $f_n : X_0 \to \Complex^\NN$, which satisfies $f_0 (x_0) = y_0$.
+In fact, all higher-order coefficients $f_k$ are uniquely determined by $f_0$.
+%
+%In particular, if $S \subset \Complex_\hbar$ is a sectorial domain at the origin, and $\FF$ is a holomorphic map $X \times S \times \Complex_y^\NN \to \Complex^\NN$ which admits $\hat{\FF}$ as its asymptotic expansion as $\hbar \to 0$ in $S$, uniformly in $x$ and locally uniformly in $y$, then the differential equation \eqref{211211103217} has a unique formal power series solution $y = \hat{f}$ near $x_0$ such that $f_0 (x_0) = y_0$.
+\end{thm}
+
+%===============================================================================
+\paragraph{}
+The proof (which can be found in \autoref{211218191751}) amounts to plugging the solution ansatz \eqref{220223141023} into the corresponding \textit{formal} or \textit{asymptotic} differential equation 
+\eqntag{\label{211214143501}
+	\hbar \del_x \hat{f} = \hat{\FF} (x, \hbar, \hat{f})
+\fullstop
+}
+and solving it order-by-order in $\hbar$.
+The `miracle' that makes this possible is that at each order in $\hbar$ this equation is no longer a differential equation because the factor $\hbar$ in front of $\del_x$ eliminates any unknown derivative information.
+
+\begin{rem}{220305145013}
+\RED{(replace $(x_0, y_0)$ with open set?)}
+\end{rem}
+
+
+%===============================================================================
+\begin{example}[Deformed Painlevé I, continued]{220223113642}
+We continue the analysis of equation \eqref{220222153708} started in \autoref{220222152734}.
+The corresponding leading-order equation and its Jacobian are:
+\eqntag{\label{220223115743}
+	\FF_0 (x,y) = \mtx{y_2 \\ 6 y_1^2 + x} = 0
+\qqtext{and}
+	\frac{\del \FF_0}{\del y} = \mtx{ 0 & 1 \\ 12 y_1 & 0}
+\fullstop
+}
+Thus, the only turning point for this system is $x = 0$.
+Choose a branch cut in the $x$-plane along the negative real axis, and fix a square-root branch $x^{1/2}$.
+Then one leading-order solution is
+\eqntag{\label{220223121054}
+	f_0 = \mtx{ q_0 \\ p_0 } \coleq \mtx{ 1 \\ 0 } \alpha x^{1/2}
+\fullstop{,}
+}
+where we put $\alpha \coleq i / \sqrt{6}$.
+The corresponding formal solution $\hat{f}$ is easiest to determine by expanding the scalar equation \eqref{220222153708} and using $p_k = \del_x q_{k-1}$.
+Indeed, for example, at order $1$ in $\hbar$, we have $6q_0 q_1 + c = 0$ which we can solve for $q_1$ to get
+\eqn{
+	f_1 = \mtx{ q_1 \\ p_1 } = \mtx{ c \\ 1/2 } \alpha x^{-1/2}
+\fullstop
+}
+More generally, for $k \geq 1$, we find: \RED{(add)}
+\end{example}
+
+%===============================================================================
+%===============================================================================
+\subsection{Gevrey Regularity of Formal Solutions}
+%===============================================================================
+%===============================================================================
+
+Now we show that the formal Borel transform of the formal solution $\hat{f}$ from \eqref{211209161918} is a convergent power series in the Borel variable $\xi$; that is, the coefficients $f_n$ essentially grow at most like $n!$.
+
+%===============================================================================
+\begin{prop}{220307181810}
+Consider the setting of \autoref{220223113827}, assume hypothesis \textup{(A1)} from \autoref{211209161918}, and let $\hat{f}$ be the corresponding formal solution defined on $X_0 \subset X$.
+If $S$ is a sectorial domain, then assume in addition that the power series $\hat{\FF}$ is locally uniformly Gevrey; or equivalently that the asymptotic expansion \eqref{220222193719} is locally uniformly Gevrey:
+\eqntag{\label{220307183153}
+	\FF (x, \hbar, y) \simeq \hat{\FF} (x, \hbar, y)
+\quad
+\text{as $\hbar \to 0$ along $A$, loc.unif $\forall (x,y)$\fullstop}
+}
+Then the formal solution $\hat{f}$ is locally uniformly Gevrey.
+In particular, the formal Borel transform 
+\eqntag{
+	\hat{\lambda} (x, \xi) =
+	\hat{\Borel} [ \, \hat{f} \, ] (x, \xi)
+		\coleq \sum_{n=0}^\infty \tfrac{1}{n!} f_{n+1} (x) \xi^n
+}
+is a convergent power series in $\xi$, locally uniformly for all $x \in X_0$.
+\end{prop}
+
+This proposition is proved in \autoref{211218192134}.
+In fact, the formal solution $\hat{f}$ satisfies even stronger properties; see \RED{(ref)}.
+
+%===============================================================================
+\paragraph{}
+Concretely, \autoref{220307181810} says that if, for any constant $\RR > 0$ and a compact subset $K \subset X_0$, there are real constants $\AA, \BB > 0$ satisfying 
+\eqntag{\label{220307185912}
+	|\FF_k (x, y)| \leq \AA \BB^k k!
+\qquad\text{$\forall k \geq 0$, $\forall x \in K$, and $\forall y$ such that $|y| < \RR$,}
+}
+then there are constants $\CC, \MM > 0$ such that
+\eqntag{\label{220307190636}
+	\big| f_k (x) \big| \leq \CC \MM^k k!
+\qqquad
+	\text{$\forall x \in K, \forall k \geq 0$\fullstop}
+}
+Notice that if $S$ is an open neighbourhood of the origin (i.e., $\FF$ is holomorphic at $\hbar = 0$), then the estimate \eqref{220307185912} is automatically satisfied.
+
+%===============================================================================
+%===============================================================================
+\subsection{Transformation to the Standard Form}
+%===============================================================================
+%===============================================================================
+
+It is possible to derive the estimates \eqref{220307190636} directly from the estimates \eqref{220307185912} by using the recursive formula that defines $\hat{f}$.
+However, it is more convenient (for this and other purposes) to first transform equation \eqref{220305143824} to a different form, which we describe now.
+
+%===============================================================================
+\paragraph{}
+Assuming $\FF$ satisfies the hypotheses of \autoref{211209161918}, let $\hat{f}$ be the corresponding formal solution defined on $X_0 \subset X$.
+Then we can consider the holomorphic invertible $\NN\!\times\!\NN$-matrix on $X_0$ defined by
+\eqntag{\label{220111195222}
+	\JJ (x) \coleq \evat{\frac{\del \FF_0}{\del y}}{\big(x, f_0 (x)\big)}
+\fullstop
+}
+
+
+
+Let $\lambda_1, \ldots, \lambda_\NN$ be the eigenvalues of $\JJ$.
+
+
+
+\HRule
+
+
+
+
+let $a_1, \ldots, a_\NN \in \Complex^\times$ be the eigenvalues of the Jacobian matrix
+\eqntag{\label{220307195933}
+	\JJ_0 \coleq \evat{\frac{\del \FF_0}{\del y}}{(x_0, y_0)}
+\fullstop
+}
+
+
+
+
+
+
+
+\HRule
+
+ let $\hat{f}$ be the unique formal power series solution with $f_0 (x_0) = y_0$.
+
+
+
+
+
+
+
+
+If $\JJ_0$ is diagonalisable, let $\PP_0 = \PP_0 (x)$ be a holomorphic invertible matrix which diagonalises $\JJ_0$; i.e., such that 
+\eqntag{\label{220222190538}
+	\PP_0^{-1} \JJ_0 \PP_0 = \diag (\lambda_1, \ldots, \lambda_\NN)
+\fullstop
+}
+Then using the change of the unknown variable $f \mapsto g$ given by
+\eqntag{\label{220223142128}
+	f = \PP_0 g
+\fullstop{,}
+}
+we can transform equation \eqref{211211103217} into the following equation for $g$:
+\eqntag{\label{220223142343}
+	\hbar \del_x g = \GG (x, \hbar, g) \coleq \PP_0^{-1} \FF \big( x, \hbar, \PP_0 g \big)
+\fullstop
+}
+The main advantage of this auxiliary equation over the original equation \eqref{211211103217} is that the matrix $\JJ_0$ associated with \eqref{220223142343} is just the diagonal matrix \eqref{220222190538}.
+
+
+
+
+%===============================================================================
+%===============================================================================
+\subsection{The Multi-Liouville Transformation}
+%===============================================================================
+%===============================================================================
+
+
+
+Consider the possibly multivalued locally conformal transformations
+\eqntag{\label{220111195226}
+	w = \Phi_i (x) \coleq \int\nolimits_{x_0}^x \lambda_i (t) \dd{t}
+\fullstop
+}
+
+
+
+
+
+
+
+
+
+
+%===============================================================================
+%===============================================================================
+\subsection{Gevrey Asymptotic Existence and Uniqueness Theorem}
+%===============================================================================
+%===============================================================================
+
+
+%===============================================================================
+\paragraph{}
+Our main theorem allows us to promote the formal solution $\hat{f}$ of \eqref{211211103217} to an analytic solution in a unique way.
+In order to state it, let us make a few preparatory remarks.
+
+
+
+
+
+
+
+
+
+
+\HRule
+
+
+
+
+
+
+
+
+
+The main result of this paper is the following theorem.
+
+%===============================================================================
+\begin{thm}[Gevrey Asymptotic Existence and Uniqueness Theorem]{211211131327}
+\mbox{}\\
+Let $X \subset \Complex_x$ be a domain and fix a point $(x_0, y_0) \in X \times \Complex^\NN_y$.
+Let $S \subset \Complex_\hbar$ be a sectorial domain with opening $A = (\theta - \tfrac{\pi}{2}, \theta + \tfrac{\pi}{2})$ for some $\theta$.
+Consider the differential equation \eqref{211211103217} where $\FF = \FF (x, \hbar, y)$ is a holomorphic map $X \times S \times \Complex_y^\NN \to \Complex^\NN$ which admits a locally uniform asymptotic expansion $\hat{\FF} (x,\hbar,y)$ as $\hbar \to 0$ along $A$.
+Suppose that
+%==============================
+\begin{enumerate}
+\item $\FF_0 (x_0, y_0) = 0$ and the Jacobian $\del \FF_0 \big/ \del y$ is invertible at $(x_0, y_0)$.
+\end{enumerate}
+%==============================
+Let $\hat{f}$ be the unique formal power series solution with $f_0 (x_0) = y_0$.
+Consider the holomorphic invertible $\NN\!\times\!\NN$-matrix near the point $x_0$ defined by
+\eqntag{\label{220111195222}
+	\JJ_0 (x) \coleq \evat{\frac{\del \FF_0}{\del y}}{\big(x, f_0 (x)\big)}
+\fullstop
+}
+Let $\lambda_1, \ldots, \lambda_\NN$ be its eigenvalues, assumed all distinct.
+Consider the possibly multivalued locally conformal transformations
+\eqntag{\label{220111195226}
+	w = \Phi_i (x) \coleq \int\nolimits_{x_0}^x \lambda_i (t) \dd{t}
+\fullstop
+}
+In addition, assume the following hypotheses for each $i = 1, \ldots, \NN$.
+%==============================
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item The point $x_0$ has a neighbourhood $W_i \subset X$ which is locally conformally mapped by $x \mapsto w = \Phi_i (x)$ onto a horizontal halfstrip $H \coleq \set{w ~\big|~ \op{dist} (w, \Real^\theta_+) < r}$ of some thickness $r > 0$, where $\Real^\theta_+ \subset \Complex_w$ is the real ray in the direction $\theta$.
+\end{enumerate}
+%==============================
+Let $\PP_0 = \PP_0 (x)$ be a holomorphic invertible matrix which diagonalises $\JJ_0$; i.e., such that 
+\eqntag{\label{220222190538}
+	\PP_0^{-1} \JJ_0 \PP_0 = \diag (\lambda_1, \ldots, \lambda_\NN)
+\fullstop
+}
+Finally, assume that $\PP_0$ can be chosen such that:
+%==============================
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item The $i$-th component of $\PP_0^{-1} \del_x \PP_0$ is bounded by $\lambda_i$ for all $x \in W_i$.
+%==============================
+\item The $i$-th component of the matrix $\PP_0^{-1} \FF (x, \hbar, \PP_0 y)$ admits the asymptotic expansion $\PP_0^{-1} \hat{\FF} (x, \hbar, \PP_0 y)$ with Gevrey bounds along the closed arc $\bar{A}$ with respect to the asymptotic scale $\lambda_i (x)$, uniformly for all $x \in W_i$ and locally uniformly for all $y \in \Complex^\NN_y$:
+%==============================
+\end{enumerate}
+\eqntag{\label{211211134526}
+	\PP_0^{-1} \FF (x, \hbar, \PP_0 y) \simeq \PP_0^{-1} \hat{\FF} (x, \hbar, \PP_0 y)
+\quad
+\text{as $\hbar \to 0$ along $\bar{A}$, wrt $\lambda_i$, unif. $\forall x \in W_i$\fullstop}
+}
+
+Then the differential equation \eqref{211211103217} has a canonical exact solution $f$ near $x_0$ which is asymptotic to the formal solution $\hat{f}$ as $\hbar \to 0$ in the direction $\theta$.
+Namely, there is a domain neighbourhood $X_0 \subset X$ of $x_0$ and a sectorial subdomain $S_0 \subset S$ with the same opening $A$ such that \eqref{211211103217} has a unique holomorphic solution $f$ on $X_0 \times S_0$ which is uniformly Gevrey asymptotic to $\hat{f}$ as $\hbar \to 0$ along the closed arc $\bar{A}$:
+\eqntag{\label{211211135307}
+	f (x, \hbar) \simeq \hat{f} (x, \hbar)
+\qquad
+	\text{as $\hbar \to 0$ along $\bar{A}$, unif. $\forall x \in X_0$\fullstop}
+}
+Moreover, $f$ is the uniform Borel $\theta$-resummation of $\hat{f}$: for all $(x, \hbar) \in X_0 \times S_0$,
+\eqntag{\label{211211135336}
+	f (x, \hbar) = \cal{S}_\theta \big[ \hat{f} \big] (x, \hbar)
+\fullstop
+}
+\end{thm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\HRule
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{OLD}
+
+
+
+\HRule
+
+
+
+
+
+Let us first give a brief account of what is achieved in this paper without delving into too much detail or generality.
+Following this discussion, we will state our main result (\autoref{211211131327}) in full.
+
+For the purposes of this streamlined discussion, suppose that
+%==============================
+\begin{itemise}
+\item [(A0${}'$)] \textit{$\FF = \FF (x, \hbar, y)$ is actually constant in $\hbar$, and polynomial in both $x$ and $y$; i.e., suppose $\FF = \FF_0$ is an algebraic map $\Complex_x \times \Complex^\NN_y \to \Complex^\NN$.}
+\end{itemise}
+%==============================
+Such a greatly simplified situation is not artificial: examples where the righthand side of equation \eqref{211211103217} has no explicit dependance on $\hbar$ are ubiquitous, yet they already require most of the power of our main result.
+The leading-order part in $\hbar$ of the differential equation \eqref{211211103217} is then the functional equation $\FF_0 (x, y) = 0$.
+
+Suppose $(x_0, y_0)$ is a point such that
+%==============================
+\begin{itemise}
+\item [(A1)] $\FF_0 (x_0, y_0) = 0$ and the Jacobian $\del \FF_0 \big/ \del y$ is invertible at $(x_0, y_0)$.
+\end{itemise}
+%==============================
+This is a familiar hypothesis from the ordinary Implicit Function Theorem which guarantees the existence of a holomorphic solution $y = f_0 (x)$ near the point $x_0$ satisfying $f_0 (x_0) = y_0$.
+Slightly less familiar is the Formal Existence and Uniqueness Theorem (\autoref{211209161918}) which says that under this hypothesis, equation \eqref{211211103217} has a unique formal $\hbar$-power series solution $\hat{f} = \hat{f} (x, \hbar)$ with holomorphic coefficients defined near $x_0$ whose leading-order part is $f_0$.
+Generically, $\hat{f}$ is a divergent power series and therefore has no direct analytic meaning.
+The main goal of this paper is to promote in a \textit{canonical} way the formal solution $\hat{f}$ to an \textit{exact solution} $f$; i.e., an actual holomorphic solution such that $\hat{f}$ is the asymptotic expansion of $f$ as $\hbar \to 0$ in some sector $S_0 \subset \Complex_\hbar$.
+%In order to achieve this, the opening angle of the sector $S$ is required to be at least $\pi$.
+%For simplicity, let us say that $S$ is the right halfplane $\set{\Re (\hbar) > 0}$.
+
+Next, we define a holomorphic invertible $\NN\!\times\!\NN$-matrix near the point $x_0$ by
+\vspace{-7.5pt}
+\eqntag{\label{220111195222}
+	\JJ_0 (x) \coleq \evat{\frac{\del \FF_0}{\del y}}{\big(x, f_0 (x)\big)}
+\fullstop
+\vspace{-7.5pt}
+}
+The fact that $\JJ_0$ is holomorphically invertible near the point $x_0$ is guaranteed by assumption (1).
+Points where $\JJ_0$ fails to be invertible are often called \textit{turning points}, and our analysis must avoid them.
+In addition, we assume that
+%==============================
+\begin{itemise}
+\item [(A2)] $\JJ_0$ is diagonalisable.
+\end{itemise}
+%==============================
+Let $\lambda_1, \ldots, \lambda_\NN$ be the eigenvalues of $\JJ_0$; they are nonvanishing holomorphic functions near $x_0$.
+In fact, let us assume for simplicity that $\JJ_0$ has already been diagonalised (see \RED{(ref)}); i.e.,
+%==============================
+\begin{itemise}
+\item [(A2${}'$)] $\JJ_0 = \diag (\lambda_1, \ldots, \lambda_\NN)$.
+\end{itemise}
+%==============================
+%\RED{See (ref) for what additional assumptions need to be imposed on the diagonalising transformation.}
+
+Consider the possibly multivalued locally conformal transformations given by
+\eqntag{\label{220111195226}
+	w = \Phi_i (x) \coleq \int\nolimits_{x_0}^x \lambda_i (t) \dd{t}
+\fullstop
+}
+They are closely related to the Liouville transformation encountered in the WKB analysis of the Schrödinger equation; see, e.g., \cite[§4.1]{MY210623112236} or \cite[§6.1]{MR1429619}.
+Notice also that turning points are precisely the points where one of these transformations fails to be conformal, which is one of the main reasons our analysis breaks down at turning points.
+
+One of the innovations in this paper is to impose the following nontrivial and nonlocal geometric assumption for each $i = 1, \ldots, \NN$:
+%==============================
+\begin{itemise}
+\item [(A3)] the point $x_0$ has a neighbourhood $W_i \subset \Complex_x$ which is mapped by $\Phi_i$ to a horizontal halfstrip $H = \set{w ~\big|~ \op{dist} (w, \Real_+) < r} \subset \Complex_w$ of some thickness $r > 0$,
+\end{itemise}
+%==============================
+and such that
+%==============================
+\begin{itemise}
+\item [(A4${}'$)] the $i$-th component $\FF^i_0 (x, y)$ of $\FF_0 (x, y)$ is bounded by $\lambda_i (x)$ for all $x \in W_i$, locally uniformly for all $y$.
+\end{itemise}
+%==============================
+Assumption (A4${}'$) can be rephrased more simply by saying that the $y$-multi-polynomial coefficients of $\FF^i_0 (x, y)$ are bounded by $\lambda_i (x)$ for all $x \in W_i$.
+
+
+
+\HRule
+
+
+Suppose that 
+Moreover, we assume that the $i$-th components of $\PP_0^{-1} \FF_0 (x, \PP_0 y)$ and $\PP_0^{-1} \del_x \PP_0$ are both bounded by 
+
+Let $\PP_0 = \PP_0 (x)$ be a holomorphic invertible matrix near $x_0$ which diagonalises $\JJ_0$:
+\eqntag{\label{220222113014}
+	\PP_0^{-1} \JJ_0 \PP_0 = \diag (\lambda_1, \ldots, \lambda_\NN)
+\fullstop
+}
+
+
+
+
+
+
+
+Then, under these simplifying assumptions, the main result of this paper (\autoref{211211131327}) can be stated as follows.
+
+%===============================================================================
+\textbf{Corollary of \autoref{211211131327}.}
+\textit{%
+The differential equation \eqref{211211103217} has a canonical exact solution $f$ near $x_0$ which is asymptotic to $\hat{f}$ as $\hbar \to 0$ in the right halfplane.
+Namely, there is a neighbourhood $X_0 \subset \Complex_x$ of $x_0$ and a sectorial subdomain $S_0 \subset S$, also with opening angle $\pi$, such that \eqref{211211103217} has a unique holomorphic solution $f$ on $X_0 \times S_0$ which is uniformly Gevrey asymptotic to $\hat{f}$ as $\hbar \to 0$ in the closed right halfplane:
+\begin{equation}
+\label{211211124352}
+	f \simeq \hat{f}
+\qqquad
+	\text{as $\hbar \to 0$ in the closed right halfplane, unif. $\forall x \in X_0$\fullstop}
+\end{equation}
+Moreover, $f$ is the uniform Borel resummation of the formal solution $\hat{f}$; i.e., $f = \cal{S} \big[ \, \hat{f} \, \big]$.
+}
+
+
+%===============================================================================
+More generally, $\FF$ need not be a polynomial in $\hbar$ but rather we assume it admits a Gevrey asymptotic expansion in some section with opening angle $\pi$.
+Namely, the main result of this paper in full generality is the following theorem.
+
+%%===============================================================================
+%\begin{thm}[Gevrey Asymptotic Existence and Uniqueness Theorem]{211211131327}
+%\mbox{}\\
+%Let $X \subset \Complex_x$ be a domain and fix a point $(x_0, y_0) \in X \times \Complex^\NN_y$.
+%Let $S \subset \Complex_\hbar$ be a sectorial domain with opening $A = (\theta - \tfrac{\pi}{2}, \theta + \tfrac{\pi}{2})$ for some $\theta$.
+%Consider the differential equation \eqref{211211103217} where $\FF = \FF (x, \hbar, y)$ is a holomorphic map $X \times S \times \Complex_y^\NN \to \Complex^\NN$ which admits a locally uniform asymptotic expansion $\hat{\FF} (x,\hbar,y)$ as $\hbar \to 0$ along $A$.
+%Suppose that
+%%==============================
+%\begin{enumerate}
+%\item $\FF_0 (x_0, y_0) = 0$ and the Jacobian $\del \FF_0 \big/ \del y$ is invertible at $(x_0, y_0)$.
+%\end{enumerate}
+%%==============================
+%Let $\hat{f}$ be the unique formal power series solution with $f_0 (x_0) = y_0$.
+%Let $\JJ_0$ be defined by \eqref{220111195222} near $x_0$, and let $\lambda_1, \ldots, \lambda_\NN$ be its eigenvalues, assumed all distinct.
+%Let $\PP_0 = \PP_0 (x)$ be a holomorphic invertible matrix which diagonalises $\JJ_0$; i.e., such that $\PP_0^{-1} \JJ_0 \PP_0 = \diag (\lambda_1, \ldots, \lambda_\NN)$.
+%Consider the possibly multivalued locally conformal transformations $\Phi_i$ defined by \eqref{220111195226}.
+%In addition, assume the following hypotheses for each $i = 1, \ldots, \NN$.
+%%==============================
+%\begin{enumerate}
+%\setcounter{enumi}{1}
+%\item The point $x_0$ has a neighbourhood $W_i \subset X$ which is locally conformally mapped by $x \mapsto z = \Phi_i (x)$ onto a horizontal halfstrip $H \coleq \set{z ~\big|~ \op{dist} (z, \Real^\theta_+) < r}$ of some thickness $r > 0$, where $\Real^\theta_+ \subset \Complex_y$ is the real ray in the direction $\theta$.
+%%==============================
+%\item The $i$-th component of the matrix $\PP_0^{-1} \FF (x, \hbar, \PP_0 y)$ admits the asymptotic expansion $\PP_0^{-1} \hat{\FF} (x, \hbar, \PP_0 y)$ 
+%
+%
+%The asymptotic expansion $\hat{\FF}$ of $\FF$ is valid on $W_i \times \Complex^\NN_y$ with Gevrey bounds along the closed arc $\bar{A}$ with respect to the asymptotic scale $\lambda_i (x)$, uniformly for all $x \in W_i$ and locally uniformly for all $y \in \Complex^\NN_y$:
+%%==============================
+%\end{enumerate}
+%\eqntag{\label{211211134526}
+%	\FF (x, \hbar, y) \simeq \hat{\FF} (x, \hbar, y)
+%\quad
+%\text{as $\hbar \to 0$ along $\bar{A}$, wrt $\lambda_i$, unif. $\forall x \in W_i$\fullstop}
+%}
+%
+%Then the differential equation \eqref{211211103217} has a canonical exact solution $f$ near $x_0$ which is asymptotic to the formal solution $\hat{f}$ as $\hbar \to 0$ in the direction $\theta$.
+%Namely, there is a domain neighbourhood $X_0 \subset X$ of $x_0$ and a sectorial subdomain $S_0 \subset S$ with the same opening $A$ such that \eqref{211211103217} has a unique holomorphic solution $f$ on $X_0 \times S_0$ which is uniformly Gevrey asymptotic to $\hat{f}$ as $\hbar \to 0$ along the closed arc $\bar{A}$:
+%\eqntag{\label{211211135307}
+%	f (x, \hbar) \simeq \hat{f} (x, \hbar)
+%\qquad
+%	\text{as $\hbar \to 0$ along $\bar{A}$, unif. $\forall x \in X_0$\fullstop}
+%}
+%Moreover, $f$ is the uniform Borel $\theta$-resummation of $\hat{f}$: for all $(x, \hbar) \in X_0 \times S_0$,
+%\eqntag{\label{211211135336}
+%	f (x, \hbar) = \cal{S}_\theta \big[ \hat{f} \big] (x, \hbar)
+%\fullstop
+%}
+%\end{thm}
+
+
+%===============================================================================
+%===============================================================================
+\section{Formal Perturbation Theory}
+\label{211218191751}
+%===============================================================================
+%===============================================================================
+
+In this section, we provide a proof of the Formal Existence and Uniqueness Theorem (\autoref{211209161918}), which follows from the following lemma.
+
+\begin{lem}{220223114234}
+\mbox{}\\
+Let $X \subset \Complex_x$ be a domain and fix a point $(x_0, y_0) \in X \times \Complex^\NN_y$.
+Consider the following formal differential equation in $\hat{f}$:
+\eqntag{\label{220223114302}
+	\hbar \del_x \hat{f} = \hat{\FF} (x, \hbar, \hat{f})
+\fullstop{,}
+}
+where $\hat{\FF}$ is a formal power series in $\hbar$,
+\vspace{-5pt}
+\eqntag{\label{220223114305}
+	\hat{\FF} (x, \hbar, y) = \sum_{k=0}^\infty \FF_k (x, y) \hbar^k
+\fullstop{,}
+}
+whose coefficients $\FF_k = \FF_k (x, y)$ are holomorphic maps $X \times \Complex^\NN_y \to \Complex^\NN$ such that $\FF_0 (x_0, y_0) = 0$ and the Jacobian $\del \FF_0 \big/ \del z$ is invertible at $(x_0, y_0)$.
+
+Then there is a subdomain $X_0 \subset X$ containing $x_0$ such that the differential equation \eqref{211214143501} has a unique formal power series solution
+\eqntag{\label{211206173102}
+	\hat{f} = \hat{f} (x, \hbar) = \sum_{n=0}^\infty f_n (x) \hbar^n
+}
+with holomorphic coefficients $f_n : X_0 \to \Complex^\NN$, which satisfies $f_0 (x_0) = y_0$.
+In fact, all higher-order coefficients $f_k$ are uniquely determined by $f_0$.
+\end{lem}
+
+%===============================================================================
+\paragraph{}
+In fact, once the leading-order solution $f_0$ has been found, it is not difficult to write down an explicit recursive formula for all the higher-order terms of the formal solution $\hat{f}$.
+First, let us note down a few formulas in order to proceed with the calculation.
+See \autoref{211214170249} for our notational conventions.
+
+Write the double power series expansion of each component $\hat{\FF}^i$ as
+\vspace{-5pt}
+\eqntag{\label{211208134110}
+	\hat{\FF}^i (x, \hbar, y) 
+		= \sum_{k=0}^\infty \sum_{m=0}^\infty \sum_{|\mm| = m}
+			\FF^i_{k\mm} (x) \hbar^k y^\mm
+\fullstop{,}
+}
+where $\FF^i_{k\mm} y^\mm \coleq \FF^i_{k m_1 \cdots m_\NN} y_1^{m_1} \cdots y_\NN^{m_\NN}$.
+In particular, the expansion of the leading-order part $\FF_0$ is
+\eqntag{\label{211208145851}
+	\FF^i_0 (x, y) = \sum_{m=0}^\infty \sum_{|\mm| = m} \FF^i_{0\mm} (x) y^\mm
+\fullstop
+}
+For every $\mm \in \Natural^\NN$, we have $\frac{\del}{\del y_j} y^\mm = \frac{m_j}{y_j} y^\mm$, so the $(i,j)$-component of the Jacobian matrix $\del \FF_0 \big/ \del y$ can be written as
+\eqntag{\label{211208145846}
+	\left[ \frac{\del \FF_0}{\del y} \right]_{ij}
+		= \frac{\del \FF^i_0}{\del y_j}
+		= \sum_{m=0}^\infty \sum_{|\mm| = m} \FF_{0\mm}^i (x) \frac{\del}{\del y_j} y^\mm
+		= \sum_{m=0}^\infty \sum_{|\mm| = m} \frac{m_j}{y_j} \FF_{0\mm}^i (x) y^\mm
+\fullstop
+}
+Next, the $\mm$-th power $\hat{f}^\mm$ of the power series ansatz \eqref{211206173102} expands as follows:
+%==============================
+\eqns{
+	\left( \sum_{n=0}^\infty f_n \hbar^n \right)^{\!\! \mm} \!\!\!
+		&= 	\left( \sum_{n_1=0}^\infty f^1_{n_1} \hbar^{n_1} \right)^{\!\! m_1} \!\!\!\!\!
+			\cdots
+			\left( \sum_{n_\NN=0}^\infty f^\NN_{n_\NN} \hbar^{n_\NN} \right)^{\!\! m_\NN}
+\\
+		&=	\left( 
+				\sum_{n_1=0}^\infty
+				\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+					f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1 \hbar^{n_1}
+			\right)
+			\cdots
+			\left( 
+				\sum_{n_\NN=0}^\infty
+				\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+					f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN \hbar^{n_\NN}
+			\right)
+\\
+		&= \sum_{n=0}^\infty \sum_{|\nn| = n}
+				\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+					f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1
+				\right)
+				\cdots
+				\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+					f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN
+				\right)
+				\hbar^n
+}
+In these formulas, we have denoted the components of each vector $\jj_i \in \Natural^{m_i}$ by $(j_{i,1}, \ldots, j_{i,m_i})$.
+Let us introduce the following shorthand notation:
+\eqntag{\label{211208150122}
+	\bm{f}^\mm_\nn 
+		\coleq
+		\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+			f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1
+		\right)
+		\cdots
+		\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+			f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN
+		\right)
+\fullstop
+}
+We note the following simple but useful identities: 
+\eqntag{
+	\bm{f}^{\bm{0}}_{\bm{0}} = 1\fullstop{;}
+	\qquad
+	\bm{f}^{\mm}_{\bm{0}} = f_0^\mm = (f^1_0)^{m_1} \cdots (f^\NN_0)^{m_\NN}\fullstop{;}
+	\qquad
+	\bm{f}^{\bm{0}}_\nn = 0 \text{ whenever $|\nn| > 0$\fullstop}
+}
+Using this notation, the formula for $\hat{f}^\mm$ can be written much more compactly:
+\eqntag{\label{211208150118}
+	\hat{f}^\mm 
+		= \left( \sum_{n=0}^\infty f_n \hbar^n \right)^{\!\! \mm}
+		= \sum_{n=0}^\infty \sum_{|\nn| = n} \bm{f}^\mm_\nn \hbar^n
+\fullstop
+}
+
+%===============================================================================
+\begin{lem}
+	
+\end{lem}
+
+
+
+
+\HRule
+
+
+%===============================================================================
+\begin{proof}
+%First, let us note down a few formulas in order to proceed with the calculation.
+%See \autoref{211214170249} for our notational conventions.
+\mbox{}
+%%==============================
+%\paragraph*{Step 0: Collect some formulas.}
+%%==============================
+%Write the double power series expansion of each component $\hat{\FF}^i$ as
+%\vspace{-5pt}
+%\eqntag{\label{211208134110}
+%	\hat{\FF}^i (x, \hbar, y) 
+%		= \sum_{k=0}^\infty \sum_{m=0}^\infty \sum_{|\mm| = m}
+%			\FF^i_{k\mm} (x) \hbar^k y^\mm
+%\fullstop{,}
+%}
+%where $\FF^i_{k\mm} y^\mm \coleq \FF^i_{k m_1 \cdots m_\NN} y_1^{m_1} \cdots y_\NN^{m_\NN}$.
+%In particular, the expansion of the leading-order part $\FF_0$ is
+%\eqntag{\label{211208145851}
+%	\FF^i_0 (x, y) = \sum_{m=0}^\infty \sum_{|\mm| = m} \FF^i_{0\mm} (x) y^\mm
+%\fullstop
+%}
+%For every $\mm \in \Natural^\NN$, we have $\frac{\del}{\del y_j} y^\mm = \frac{m_j}{y_j} y^\mm$, so the $(i,j)$-component of the Jacobian matrix $\del \FF_0 \big/ \del y$ can be written as
+%\eqntag{\label{211208145846}
+%	\left[ \frac{\del \FF_0}{\del y} \right]_{ij}
+%		= \frac{\del \FF^i_0}{\del y_j}
+%		= \sum_{m=0}^\infty \sum_{|\mm| = m} \FF_{0\mm}^i (x) \frac{\del}{\del y_j} y^\mm
+%		= \sum_{m=0}^\infty \sum_{|\mm| = m} \frac{m_j}{y_j} \FF_{0\mm}^i (x) y^\mm
+%\fullstop
+%}
+%Next, the $\mm$-th power $\hat{f}^\mm$ of the power series ansatz \eqref{211206173102} expands as follows:
+%%==============================
+%\eqns{
+%	\left( \sum_{n=0}^\infty f_n \hbar^n \right)^{\!\! \mm} \!\!\!
+%		&= 	\left( \sum_{n_1=0}^\infty f^1_{n_1} \hbar^{n_1} \right)^{\!\! m_1} \!\!\!\!\!
+%			\cdots
+%			\left( \sum_{n_\NN=0}^\infty f^\NN_{n_\NN} \hbar^{n_\NN} \right)^{\!\! m_\NN}
+%\\
+%		&=	\left( 
+%				\sum_{n_1=0}^\infty
+%				\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+%					f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1 \hbar^{n_1}
+%			\right)
+%			\cdots
+%			\left( 
+%				\sum_{n_\NN=0}^\infty
+%				\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+%					f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN \hbar^{n_\NN}
+%			\right)
+%\\
+%		&= \sum_{n=0}^\infty \sum_{|\nn| = n}
+%				\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+%					f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1
+%				\right)
+%				\cdots
+%				\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+%					f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN
+%				\right)
+%				\hbar^n
+%}
+%In these formulas, we have denoted the components of each vector $\jj_i \in \Natural^{m_i}$ by $(j_{i,1}, \ldots, j_{i,m_i})$.
+%Let us introduce the following shorthand notation:
+%\eqntag{\label{211208150122}
+%	\bm{f}^\mm_\nn 
+%		\coleq
+%		\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+%			f_{j_{1,1}}^1 \cdots f_{j_{1,m_1}}^1
+%		\right)
+%		\cdots
+%		\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+%			f_{j_{\NN,1}}^\NN \cdots f_{j_{\NN,m_\NN}}^\NN
+%		\right)
+%\fullstop
+%}
+%We note the following simple but useful identities: 
+%\eqntag{
+%	\bm{f}^{\bm{0}}_{\bm{0}} = 1\fullstop{;}
+%	\qquad
+%	\bm{f}^{\mm}_{\bm{0}} = f_0^\mm = (f^1_0)^{m_1} \cdots (f^\NN_0)^{m_\NN}\fullstop{;}
+%	\qquad
+%	\bm{f}^{\bm{0}}_\nn = 0 \text{ whenever $|\nn| > 0$\fullstop}
+%}
+%Using this notation, the formula for $\hat{f}^\mm$ can be written much more compactly:
+%\eqntag{\label{211208150118}
+%	\hat{f}^\mm 
+%		= \left( \sum_{n=0}^\infty f_n \hbar^n \right)^{\!\! \mm}
+%		= \sum_{n=0}^\infty \sum_{|\nn| = n} \bm{f}^\mm_\nn \hbar^n
+%\fullstop
+%}
+
+%==============================
+\paragraph*{Step 1: Expand order-by-order.}
+%==============================
+Now, we plug the solution ansatz \eqref{211206173102} into the differential equation $\hbar \del_x \hat{f} = \hat{\FF} (x,\hbar,\hat{f})$.
+Using \eqref{211208134110} and \eqref{211208150118}, we find:
+\eqnstag{\nonumber
+	\sum_{n=0}^\infty \del_x f^i_{n} \hbar^{n+1}
+		&= \sum_{k=0}^\infty \sum_{m=0}^\infty \sum_{|\mm| = m}
+			\FF^i_{k\mm} (x) \hbar^k \sum_{n=0}^\infty \sum_{|\nn| = n} \bm{f}^\mm_\nn \hbar^n
+\\
+\label{211208150414}
+	\sum_{n=1}^\infty \del_x f^i_{n-1} \hbar^n
+	&=
+	\sum_{n=0}^\infty \sum_{m=0}^\infty \sum_{k=0}^n
+	\sum_{|\nn| = n - k} \sum_{|\mm| = m}
+			\FF^i_{k\mm} \bm{f}^\mm_\nn \hbar^{n}
+\qqquad
+\text{(\:$i = 1, \ldots, \NN$\:)\fullstop}
+}
+We solve this system of equations for $f_n$ order-by-order in $\hbar$.
+
+%==============================
+\paragraph*{Step 2: Leading-order part.}
+%==============================
+First, at order $n = 0$, equation \eqref{211208150414} yields:
+\eqntag{\label{211208152123}
+		0=
+		\sum_{m=0}^\infty \sum_{|\mm| = m} \FF_{0\mm}^i (x) \bm{f}^\mm_{\bm{0}}
+\qqquad
+\text{(\:$i = 1, \ldots, \NN$\:)\fullstop}
+}
+Comparing with \eqref{211208145851}, these equations are simply the components of the equation $\FF_0 (x, f_0) = 0$.
+By the Holomorphic Implicit Function Theorem, there is a domain $X_0 \subset X$ containing $x_0$ such that there is a unique holomorphic map $f_0 : X_0 \to \Complex^\NN$ that satisfies $\FF_0 \big(x, f_0(x)\big) = 0$ and $f_0 (x_0) = y_0$.
+In fact, the domain $X_0$ can be chosen so small that the Jacobian $\del \FF_0 \big/ \del y$ remains invertible at $(x,y) = \big(x, f_0(x)\big)$ for all $x \in X_0$.
+Thus, we can define a holomorphic invertible $\NN\!\!\times\!\!\NN$-matrix $\JJ_0$ on $X_0$ by
+\eqntag{\label{211208151359}
+	\JJ_0 (x) \coleq \evat{\frac{\del \FF_0}{\del y}}{\big(x, f_0(x)\big)}
+}
+The $(i,j)$-component of $\JJ_0$ is:
+\eqntag{\label{211208150755}
+	[\JJ_0]_{ij}
+		= \evat{\frac{\del \FF^i_0}{\del y_j}}{\big(x, f_0(x)\big)} \!\!\!
+		= \sum_{m=0}^\infty \sum_{|\mm| = m} \frac{m_j}{f_0^j} \FF_{0\mm}^i \bm{f}^\mm_{\bm{0}}
+\fullstop
+}
+
+%==============================
+\paragraph*{Step 3: Next-to-leading-order part.}
+%==============================
+For clarity, let us also examine equation \eqref{211208150414} at order $n = 1$.
+First, let us note that if $|\nn| = 1$, then $\nn = (0, \ldots, 1, \ldots, 0)$ with the only $1$ in some position $j$, in which case notation \eqref{211208150122} reduces to:
+\eqntag{\label{211208154854}
+	\bm{f}^\mm_\nn
+		= (f^1_0)^{m_1} \cdots \left(m_j f_1^j \right) (f_0^j)^{m_j-1} \cdots (f^\NN_0)^{m_\NN}
+		= \frac{m_j}{f_0^j} \bm{f}_{\bm{0}}^\mm f_1^j
+\fullstop
+}
+Then at order $n = 1$, equation \eqref{211208150414} comprises two main summands corresponding to $k = 0$ and $k = 1$, which simplify using identities \eqref{211208150755} and \eqref{211208154854}: 
+\eqnstag{\nonumber
+	\del_x f^i_0
+	&=
+	\BLUE{\sum_{m=0}^\infty \sum_{|\mm| = m}
+		\sum_{|\nn| = 1} \FF^i_{0\mm} \bm{f}^\mm_\nn}
+	+ \sum_{m=0}^\infty \sum_{|\mm| = m}
+		\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+\fullstop{,}
+\\\nonumber
+	\del_x f^i_0
+	&=
+	\BLUE{\sum_{j=1}^\NN 
+	\sum_{m=0}^\infty \sum_{|\mm| = m}
+		\frac{m_j}{f_0^j} \FF^i_{0\mm} \bm{f}_{\bm{0}}^\mm f_1^j}
+	+ \sum_{m=0}^\infty \sum_{|\mm| = m}
+		\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+\fullstop{,}
+\\\label{211208162829}
+	\del_x f^i_0
+	&=
+	\BLUE{\sum_{j=1}^\NN [\JJ_0]_{ij} f_1^j}
+	+ \sum_{m=0}^\infty \sum_{|\mm| = m}
+		\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+\fullstop
+}
+Observe that the \BLUE{blue} term is nothing but the $i$-th component of the vector $\JJ_0 f_1$.
+Since $\JJ_0$ is an invertible matrix, multiplying the system of $\NN$ equations \eqref{211208162829} on the left by $\JJ^{-1}_0$, we solve uniquely for a holomorphic vector $f_1$ on $X_0$.
+
+%==============================
+\paragraph*{Step 4: Inductive step.}
+%==============================
+Suppose now that $n \geq 1$ and we have already solved equation \eqref{211208150414} for holomorphic vectors $f_0, f_1, \ldots, f_{n-1}$ on $X_0$.
+Similar to \eqref{211208154854}, we have that if $\nn = (0, \ldots, n, \ldots, 0)$ with the only nonzero entry in some position $j$, then
+\eqntag{\label{211216093444}
+	\bm{f}^\mm_\nn
+		= (f^1_0)^{m_1} \cdots \left(m_j f_n^j \right) (f_0^j)^{m_j-1} \cdots (f^\NN_0)^{m_\NN}
+		= \frac{m_j}{f_0^j} \bm{f}_{\bm{0}}^\mm f_n^j
+\fullstop
+}
+Then at order $n$ in $\hbar$, we first separate out the $k = 0$ summand from which we then take out all the terms with $\nn = (0, \ldots, n, \ldots, 0)$, and simplify using \eqref{211208150755} and \eqref{211216093444}:
+\eqns{
+	\del_x f^i_{n-1}
+	&=
+	\sum_{m=0}^\infty \sum_{k=0}^n
+	\sum_{|\nn| = n - k} \sum_{|\mm| = m}
+			\FF^i_{k\mm} \bm{f}^\mm_\nn
+\fullstop{,}
+\\
+	&=
+	\sum_{m=0}^\infty
+	\left(
+	\sum_{|\nn| = n} \sum_{|\mm| = m}
+			\FF^i_{0\mm} \bm{f}^\mm_\nn
+	+
+	\sum_{k=1}^n \sum_{|\nn| = n - k} \sum_{|\mm| = m}
+			\FF^i_{k\mm} \bm{f}^\mm_\nn
+	\right)
+\fullstop{,}
+\\
+	&=
+	\BLUE{\sum_{j=1}^\NN \sum_{m=0}^\infty
+	\sum_{|\mm| = m}
+			\frac{m_j}{f_0^j} \FF^i_{0\mm} \bm{f}_{\bm{0}}^\mm f_n^j}
+		\hspace{0.55\textwidth}
+\\
+	&\phantom{=}~
+	+ \sum_{m=0}^\infty 
+	\left(
+		\sum_{|\nn| = n}^{n_1, \ldots, n_\NN \neq n} \!\!
+		\sum_{|\mm| = m}
+				\FF^i_{0\mm} \bm{f}^\mm_\nn
+		+
+		\sum_{k=1}^n \sum_{|\nn| = n - k} \sum_{|\mm| = m}
+				\FF^i_{k\mm} \bm{f}^\mm_\nn
+	\right)
+\fullstop{,}
+\\
+	&=
+	\BLUE{\sum_{j=1}^\NN [\JJ_0]_{ij} f_n^j}
+	+
+	\sum_{m=0}^\infty 
+	\left(
+		\sum_{|\nn| = n}^{n_1, \ldots, n_\NN \neq n} \!\!
+		\sum_{|\mm| = m}
+				\FF^i_{0\mm} \bm{f}^\mm_\nn
+		+
+		\sum_{k=1}^n \sum_{|\nn| = n - k} \sum_{|\mm| = m}
+				\FF^i_{k\mm} \bm{f}^\mm_\nn
+	\right)
+\fullstop
+}
+The term in \BLUE{blue} is nothing but the $i$-th component of the vector $\JJ_0 f_n$.
+Observe that the remaining part of this expression involves only the already-known components of the lower-order vectors $f_0, \ldots, f_{n-1}$.
+Therefore, since $\JJ_0$ is invertible, multiplying this system of $\NN$ equations on the left by $\JJ_0^{-1}$, we can solve uniquely for the holomorphic vector $f_n$ on $X_0$. 
+\end{proof}
+
+%===============================================================================
+%===============================================================================
+\section{Gevrey Regularity of the Formal Solution}
+\label{211218192134}
+%===============================================================================
+%===============================================================================
+
+Now we show that the formal Borel transform of the formal solution $\hat{f}$ is a convergent power series in the Borel variable $\xi$; that is, the coefficients $f_n$ essentially grow at most like $n!$.
+
+\begin{prop}[{Gevrey Formal Existence and Uniqueness Theorem}]{211209171812}
+\mbox{}\\
+Assume all the hypotheses of \autoref{211209161918} and suppose in addition that the power series $\hat{\FF}$ is locally uniformly Gevrey on $X \times \Complex_y^\NN$.
+Then the formal power series solution $\hat{f}$ is locally uniformly Gevrey on $X_0$.
+In particular, the formal Borel transform 
+\eqntag{
+	\hat{\lambda} (x, \xi) =
+	\hat{\Borel} [ \, \hat{f} \, ] (x, \xi)
+		\coleq \sum_{n=0}^\infty \tfrac{1}{n!} f_{n+1} (x) \xi^n
+}
+is a convergent power series in $\xi$, locally uniformly for all $x \in X_0$.
+Concretely, if $X_0 \subset X$ is any subset where all eigenvalues of $\JJ_0$ are bounded from below and such that there are real constants $\AA, \BB > 0$ satisfying $|\FF_k (x, y)| \leq \AA \BB^k k!$ for all $k \geq 0$, uniformly for all $x \in X_0$ and all $y$ in some finite-radius ball in $\Complex_y^\NN$, then there are constants $\CC, \MM > 0$ such that
+\eqntag{
+	\big| f_k (x) \big| \leq \CC \MM^k k!
+\qqquad
+	\text{$\forall x \in X_0, \forall k$\fullstop}
+}
+\end{prop}
+
+\begin{proof}
+Let $X_0 \subset X$ be such that all the eigenvalues of the invertible holomorphic matrix $\JJ_0$ from \eqref{211208151359} are bounded from below.
+
+%==============================
+\paragraph*{Step 1: Preliminary transformation.}
+\label{220110161323}
+Let $\KK_0 \coleq \diag (\lambda_1, \ldots, \lambda_\NN)$ be the diagonal matrix of eigenvalues of $\JJ_0$ and let $\PP_0 = \PP_0 (x)$ be a holomorphic invertible matrix that diagonalises $\JJ_0$; i.e., 
+\eqntag{\label{211217174509}
+	\PP_0 \JJ_0 \PP_0^{-1} = \KK_0
+\fullstop
+}
+Consider the change of the unknown variable $\hat{f} \mapsto \hat{g}$ given by the formula
+\eqntag{\label{211217174512}
+	\hat{f} = f_0 + \hbar f_1 + \hbar \PP_0^{-1} \hat{g}
+\fullstop
+}
+We argue that it transforms the formal differential equation \eqref{211214143501} into one of the form
+\eqntag{\label{211217174517}
+	\hbar \KK_0^{-1} \del_x \hat{g} - \hat{g} = \hbar \hat{\GG} (x, \hbar, \hat{g})
+}
+or, written in components for $i = 1, \ldots, \NN$,
+\eqntag{\label{211217174520}
+	\hbar \lambda^{-1}_i \del_x \hat{g}^i - \hat{g}^i = \hbar \hat{\GG}^i (x, \hbar, \hat{g})
+\fullstop{,}
+}
+where
+\eqntag{
+	\hat{\GG} 
+		= \hat{\GG} (x, \hbar, w) 
+		\coleq \sum_{k=0}^\infty \GG_k (x, w) \hbar^k
+}
+is a formal power series in $\hbar$ with holomorphic coefficients $\GG_k : X_0 \times \Complex_w^\NN \to \Complex^\NN$, which is Gevrey uniformly for all $x \in X_0$ and locally uniformly for all $w \in \Complex^\NN_w$.
+
+Indeed, substituting \eqref{211217174512} into the formal equation $\hbar \del_x \hat{f} = \hat{\FF} (x, \hbar, \hat{f})$, we find:
+\eqntag{\label{220110154818}
+	\hbar \del_x f_0 
+		+ \hbar^2 \del_x f_1 
+		+ \hbar^2 (\del_x \PP_0^{-1}) \hat{g}
+		+ \hbar^2 \PP_0^{-1} \del_x \hat{g}
+	= \hat{\FF} \big( x, \hbar, f_0 + \hbar f_1 + \hbar \PP_0^{-1} \hat{g} \big)
+\fullstop
+}
+At the leading-order in $\hbar$, the righthand side is simply $\FF_0 (x, f_0)$ which is zero since $f_0$ is a leading-order solution.
+Next, we argue that the next-to-leading-order part of $\hat{\FF} \big( x, \hbar, f_0 + \hbar f_1 + \hbar w \big)$ is $\del_x f_0 + \JJ_0 w = \del_x f_0 + \PP_0^{-1} \KK_0 \PP_0 w$, so that the expression
+\eqn{
+	\hat{\FF} \big( x, \hbar, f_0 + \hbar f_1 + \hbar \PP_0^{-1} \hat{g} \big)
+	- \hbar \del_x f_0 - \hbar \PP_0^{-1} \KK_0 \hat{g}
+}
+is of order at least $2$ in $\hbar$.
+In other words, subtracting the term $\PP_0^{-1} \KK_0 \hat{g}$ from both sides of \eqref{220110154818} and rearranging leads to the equation
+\begin{multline*}
+	\hbar^2 \PP_0^{-1} \del_x \hat{g} - \hbar \PP_0^{-1} \KK_0 \hat{g}
+	= \hat{\FF} \big( x, \hbar, f_0 + \hbar f_1 + \hbar \PP_0^{-1} \hat{g} \big)
+		- \hbar \del_x f_0 - \hbar \PP_0^{-1} \KK_0 \hat{g} 
+	\\
+	- \hbar^2 \del_x f_1 - \hbar^2 (\del_x \PP_0^{-1}) \hat{g}
+	= \hbar^2 \KK_0^{-1} \PP_0 \hat{\GG} (x, \hbar, \hat{g})
+\fullstop{,}
+\end{multline*}
+where $\hat{\GG}$ is defined by this equality.
+Evidently,
+\eqntag{\label{211214180548}
+	\Big[ \FF \big(\hbar, f_0 + \hbar f_1 + \hbar w\big) \Big]^{\OO (\hbar)}
+	= \FF_1 (f_0) + \Big[ \FF_0 \big(f_0 + \hbar f_1 + \hbar w\big) \Big]^{\OO (\hbar)}
+\fullstop
+}
+The $i$-th component of $\FF_1 (f_0)$ is easy to write down:
+\vspace{-5pt}
+\eqntag{\label{211214180637}
+	\FF_1^i (f_0) 
+		= \sum_{m=0}^\infty \sum_{|\mm| = m}
+			\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+\fullstop
+}
+To expand the term $\big[ \FF_0 \big(f_0 + \hbar f_1 + \hbar w\big) \big]^{\OO (\hbar)}$, consider first the following calculation:
+\eqns{
+	&\phantom{=}~~
+		\Big( f_0 + \hbar (f_1 + w) \Big)^\mm
+\\	&= 
+		\Big( f_0^1 + \hbar (f_1^1 + w_1) \Big)^{m_1}
+		\cdots
+		\Big( f_0^\NN + \hbar (f_1^\NN + w_\NN) \Big)^{m_\NN}
+\\
+	&=
+		\left(
+			\sum_{i_1 + j_1 = m_1} \!\!\!\!
+			\binom{m_1}{i_1, j_1} 
+			\big( f_0^1 \big)^{i_1} 
+			\big(f_1^1 + w_1\big)^{j_1} \hbar^{j_1}
+		\right)
+		\cdots
+		\left(
+			\sum_{i_\NN + j_\NN = m_\NN} \!\!\!\!
+			\binom{m_\NN}{i_\NN, j_\NN} 
+			\big( f_0^\NN \big)^{i_\NN} 
+			\big(f_1^\NN + w_\NN\big)^{j_\NN} \hbar^{j_\NN}
+		\right)
+\\
+	&=
+		\sum_{\substack{i_1 + j_1 = m_1 \\ \cdots \\ i_\NN + j_\NN = m_\NN}}^{\ii,\jj \in \Natural^\NN}
+		\binom{m_1}{i_1, j_1} \cdots \binom{m_\NN}{i_\NN, j_\NN}
+		f_0^\ii \big(f_1 + w\big)^{\jj}
+		\hbar^{|\jj|}
+\fullstop
+}
+We are only interested in the $|\jj|=1$ part of this sum.
+This means $\jj = (0, \ldots, 1, \ldots, 0)$; i.e., for each $k = 1, \ldots, \NN$, we have $j_k = 1$, $i_k = m_k - 1$, and $j_{k'} = 0, i_{k'} = m_1$ for all $k' \neq k$.
+Since $\binom{m_k}{m_k - 1, 1} = m_k$ and $\binom{m_{k'}}{m_{k'}, 0} = 1$, the coefficient of $\hbar$ in the above expression simplifies as follows:
+\eqn{
+	\sum_{k=1}^\NN 
+		\frac{m_k}{f_0^k} \bm{f}^\mm_{\bm{0}}
+		\big(f^k_1 + w_k\big)
+\fullstop
+}
+Therefore, continuing \eqref{211214180548} and using the above calculation together with \eqref{211208150755} and \eqref{211214180637}, we find for every $i = 1, \ldots, \NN$:
+\vspace{-5pt}
+\eqns{
+	\Big[ \FF^i \big(\hbar, f_0 + \hbar f_1 + \hbar w\big) \Big]^{\OO (\hbar)} \!\!\!
+	&= \sum_{m=0}^\infty \sum_{|\mm| = m} \!\!
+			\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+		+ \sum_{k=1}^\NN \sum_{m=0}^\infty \sum_{|\mm| = m} \!\!
+			\FF^i_{0\mm}
+			\frac{m_k}{f_0^k} \bm{f}^\mm_{\bm{0}} \big(f^k_1 + w_k\big)
+\\
+	&= \sum_{m=0}^\infty \sum_{|\mm| = m}
+			\FF^i_{1\mm} \bm{f}^\mm_{\bm{0}}
+		+ \sum_{k=1}^\NN [\JJ_0]_{ki} f_1^k 
+		+ \sum_{k=1}^\NN [\JJ_0]_{ki} w_k
+\fullstop
+}
+Using \eqref{211208162829}, it is now clear this this expression is the $i$-th component of $\del_x f_0 + \JJ_0 w$.
+
+%==============================
+\paragraph*{Step 2: Solve the transformed equation.}
+Equation \eqref{211217174517} has a unique formal power series solution
+\eqntag{\label{211209163813}
+	\hat{g} = \hat{g} (x,\hbar) = \sum_{n=0}^\infty g_n (x) \hbar^n
+\fullstop
+}
+Moreover, $g_0 \equiv 0$ and all the higher-order coefficients $g_n$ are given by the following recursive formula: for every $i = 1, \ldots, \NN$,
+\eqntag{\label{211209163820}
+	g_{n+1}^i
+	= 	\lambda_i^{-1} \del_x g^i_n -
+		\sum_{k = 0}^{n} \sum_{m=0}^{n-k} \sum_{|\mm| = m} \sum_{|\nn| = n-k}
+		\GG^i_{k\mm} \bm{g}^\mm_\nn
+\fullstop{,}
+}
+where
+\vspace{-10pt}
+\eqntag{\label{211209164708}
+	\bm{g}^\mm_\nn 
+		\coleq
+		\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+			g_{j_{1,1}}^1 \cdots g_{j_{1,m_1}}^1
+		\right)
+		\cdots
+		\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+			g_{j_{\NN,1}}^\NN \cdots g_{j_{\NN,m_\NN}}^\NN
+		\right)
+\fullstop{,}
+}
+and where $\GG^i_{k\mm} = \GG^i_{k\mm} (x)$ are the coefficients of the double power series expansion
+\eqntag{\label{211209163824}
+	\hat{\GG}^i (x, \hbar, w)
+		= \sum_{k=0}^\infty \sum_{m=0}^\infty \sum_{|\mm| = m} \GG^i_{k\mm} (x) \hbar^k w^\mm
+\fullstop
+}
+Indeed, similar to the computation in the proof of \autoref{211209161918}, we plug the solution ansatz \eqref{211209163813} into the double power series expansion \eqref{211209163824} of $\hat{\GG}^i$.
+The fact that $g_0 \equiv 0$ is obvious, and the righthand side of equation \eqref{211217174517} expands as follows:
+\eqns{
+	\hbar \sum_{k=0}^\infty \sum_{m=0}^\infty \sum_{|\mm| = m}
+	 \GG^j_{k\mm} \hbar^k \left( \sum_{n=0}^\infty g_n \hbar^n \right)^\mm
+	&= \hbar \sum_{k=0}^\infty \sum_{m=0}^\infty 
+				\sum_{|\mm| = m} \sum_{n=0}^\infty \sum_{|\nn|=n}
+			\GG^j_{k\mm} \bm{g}^\mm_\nn \hbar^{k+n}
+\\	&= \hbar \ORANGE{\sum_{n=0}^\infty \sum_{k=0}^n} \sum_{m=0}^{\infty} 
+				\sum_{|\mm| = m} \sum_{|\nn|=\ORANGE{n-k}}
+			\GG^j_{k\mm} \bm{g}^\mm_\nn \hbar^{\ORANGE{n}}
+\\	&= \hbar \sum_{n=0}^\infty \sum_{k=0}^n \sum_{m=0}^{\ORANGE{n-k}} 
+				\sum_{|\mm| = m} \sum_{|\nn|=n-k}
+			\GG^j_{k\mm} \bm{g}^\mm_\nn \hbar^{n}
+\fullstop{,}
+}
+where in the last step we noticed that all terms with $m > |\nn| = n-k$ are zero because $g_0 \equiv 0$; cf. \eqref{211209164708}.
+So we obtain \eqref{211209163820}.
+
+%==============================
+\paragraph*{Step 3: Reduce problem to the transformed equation.}
+Since $f_0, f_1$ and $\PP_0$ are necessarily bounded on any compactly contained subset of $X_0$, it is sufficient to show that the formal solution $\hat{g}$ of \eqref{211217174517} is locally uniformly Gevrey on $X_0$.
+Let $\Disc_\RR \subset X_0$ be any sufficiently small disc of some radius $\RR > 0$, such that there are constants $\AA, \BB > 0$ that give the following bounds: for all $i = 1, \ldots, \NN$, all $k,m \in \Natural$, all $\mm \in \Natural^\NN$ with $|\mm| = m$, and all $x \in \Disc_\RR$,
+\eqntag{\label{211209172430}
+	\big| \GG^i_{k\mm} (x) \big| \leq \rho_m \AA \BB^{k+m} k!
+\qqtext{and}
+	\big| \lambda^{-1}_i (x) \big| \leq \AA
+\fullstop{,}
+}
+where $\rho_m$ is a normalisation constant defined by
+\eqntag{\label{211209172628}
+	\frac{1}{\rho_m} \coleq \sum_{|\mm| = m} 1 = \tbinom{m + \NN - 1}{\NN - 1}
+\fullstop
+}
+It will be convenient for us to assume without loss of generality that $\AA \geq 3$ and $\RR < 1$.
+We shall prove that the solution $\hat{g}$ is a uniformly Gevrey power series on any compactly contained subset of $\Disc_\RR$.
+In fact, we will prove something a little bit stronger as follows.
+For any $r \in (0, \RR)$, denote by $\Disc_r \subset \Disc_\RR$ the concentric subdisc of radius $r$.
+Then our assertions follow from the following lemma.
+
+%==============================
+\paragraph*{Lemma.}
+%==============================
+\textit{
+There is a real constant $\MM > 0$ such that, for all $r \in (0,\RR)$,
+\eqntag{\label{191211212938}
+	\big| g^i_{n+1} (x) \big| \leq \MM^{n+1} \delta^{-n} n!
+}
+for all $n \in \Natural$, all $i = 1, \ldots, \NN$, and uniformly for all $x \in \Disc_r$, where $\delta \coleq \RR - r$.
+(The constant $\MM$ is independent of $r, x, n$, but may depend on $\RR, \AA, \BB$.)
+In particular, for any $r \in (0,\RR)$, the power series $\hat{g}$ is uniformly Gevrey on $\Disc_r$.
+}
+
+It remains to prove this lemma.
+The bound \eqref{191211212938} will be demonstrated in two main steps.
+First, we will recursively construct a sequence $\set{\MM_n}_{n=0}^\infty$ of nonnegative real numbers such that for all $n \in \Natural$, all $i = 1, \ldots, \NN$, all $r \in (0, \RR)$, and all $x \in \Disc_r$, we have the bound
+\eqntag{\label{211209173300}
+	\big| g_{n+1}^i (x) \big| \leq \MM_{n+1} \delta^{-n} n!
+\fullstop
+}
+Then we will show that there is a constant $\MM > 0$ (independent of $r$) such that $\MM_n \leq \MM^n$ for all $n$.
+
+%==============================
+\paragraph*{Step 4: Construction of $\set{\MM_n}_{n=0}^\infty$.}
+Let $\MM_0 \coleq 0$.
+Now we use induction on $n$ and formula \eqref{211209163820}, which is more convenient to rewrite as follows:
+\eqntag{\label{211209173912}
+	g_{n+1}^i
+	= 	\lambda_i^{-1} \del_x g_n^i
+		-
+		\sum_{m=0}^\infty \sum_{k=0}^n \sum_{|\mm| = m} \sum_{|\nn| = n-k}
+		\GG^i_{k\mm} \bm{g}^\mm_\nn
+\fullstop
+}
+Notice that $\bm{g}^\mm_\nn = 0$ whenever $m = |\mm| > |\nn| = n-k$, so this expression really is the same as \eqref{211209163820}.
+
+%==============================
+\textsc{Step 4.1: Inductive hypothesis.}
+Assume that we have already constructed nonnegative real numbers $\MM_0, \ldots, \MM_n$ such that, for all $i = 1, \ldots, \NN$, all $j = 0, \ldots, n-1$, all $r \in (0,\RR)$, and all $x \in \Disc_r$, we have the bound
+\eqntag{\label{191212164433}
+	\big| g_{j+1}^i (x) \big| \leq \MM_{j+1} \delta^{-j} j!
+}
+
+%==============================
+\textsc{Step 4.2: Bounding the derivative.}
+In order to derive an estimate for $g^i_{n+1}$, we first need to estimate the derivative term $\del_x g^i_n$, for which we use Cauchy estimates as follows.
+We claim that for all $r \in (0,\RR)$ and all $x \in \Disc_r$,
+\eqntag{\label{191212164536}
+	\big| \del_x g^i_{n} (x) \big| \leq \AA \MM_{n} \delta^{-n} n!
+\fullstop{,}
+}
+where $\delta = \RR - r$.
+Indeed, for every $r \in (0,\RR)$, define
+\eqn{
+	\delta_n \coleq
+		\delta \frac{n}{n+1}
+\qqtext{and}
+	r_n \coleq \RR - \delta_n
+\fullstop
+}
+Then inequality \eqref{191212164433} holds in particular with $j = n-1$ and $r = r_n$.
+Thus, for all $x \in \Disc_{r_n}$, we find:
+\eqn{
+	\big| g^i_n (x) \big|
+		\leq \MM_{n}  \delta_n^{1-n} (n-1)!
+		= \MM_{n} \delta^{1-n} \tfrac{n}{n+1}
+			\left( \tfrac{n+1}{n} \right)^{n} (n-1)!
+		\leq \AA \MM_{n} \delta^{-n} n! \tfrac{\delta}{n+1}
+\fullstop
+}
+Here, we have used the estimate $( 1 + 1/n )^{n} \leq e \leq \AA$.
+Finally, notice that for every $x \in \Disc_r$, the closed disc centred at $x$ of radius $r_n - r = (\RR - \delta_n) - (\RR - \delta) = \delta - \delta_n = \frac{\delta}{n+1}$ is contained inside the disc $\Disc_{r_n}$.
+Therefore, Cauchy estimates imply \eqref{191212164536}.
+
+%==============================
+\textsc{Step 4.3: Bounding $\bm{g}^\mm_\nn$.}
+Let us estimate each $\bm{g}^\mm_\nn$ separately using formula \eqref{211209164708}:
+\eqns{
+	\big| \bm{g}^\mm_\nn \big|
+	&\leq
+		\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+			\big| g_{j_{1,1}}^1 \big| \cdots \big| g_{j_{1,m_1}}^1 \big|
+		\right)
+		\cdots
+		\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+			\big| g_{j_{\NN,1}}^\NN \big| \cdots \big| g_{j_{\NN,m_\NN}}^\NN \big|
+		\right)
+\\
+	&\leq
+		\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+			\MM_{j_{1,1}} \cdots \MM_{j_{1,m_1}}
+		\right)
+		\cdots
+		\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+			\MM_{j_{\NN,1}} \cdots \MM_{j_{\NN,m_\NN}}
+		\right)
+			\delta^{-n}
+			\big(|\nn| - |\mm| \big)!
+\fullstop{,}
+}
+where we repeatedly used the inequality $i!j!\leq(i+j)!$.
+Introduce the following shorthand:
+\eqntag{\label{211209180714}
+	\bm{\MM}^\mm_\nn 
+	\coleq 
+	\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+		\MM_{j_{1,1}} \cdots \MM_{j_{1,m_1}}
+	\right)
+	\cdots
+	\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+		\MM_{j_{\NN,1}} \cdots \MM_{j_{\NN,m_\NN}}
+	\right)
+\fullstop
+}
+Then the estimate for $\bm{g}^\mm_\nn$ becomes simply $|\bm{g}^\mm_\nn| \leq \bm{\MM}^\mm_\nn \big( |\nn|-|\mm| \big)!$.
+
+
+%==============================
+\textsc{Step 4.4: Inductive step.}
+Now we can finally estimate $g^i_{n+1}$ using formula \eqref{211209173912}:
+\eqns{
+	\big| g^i_{n+1} \big|
+	&\leq \big| \lambda_i^{-1} \del_x g_n^i \big|
+			+
+		\sum_{m=0}^\infty \sum_{k=0}^n \sum_{|\mm| = m} \sum_{|\nn| = n-k}
+			\big| \GG^i_{k\mm} \big| \cdot \big| \bm{g}^\mm_\nn \big|
+\\
+	&\leq 
+		\AA^2 \MM_{n} \delta^{-n} n!
+		+ 
+		\sum_{k=0}^n
+		\sum_{m=0}^\infty 
+		\sum_{|\mm| = m} \sum_{|\nn| = n-k}
+		\rho_m \AA \BB^{k+m} k! \bm{\MM}^\mm_\nn 
+		\delta^{-n}
+		\big( n-k-m \big)!
+\\
+	&\leq
+		\AA^2
+		\left(
+			\MM_{n}
+			+
+			\sum_{k=0}^n
+			\BB^k
+			\sum_{m=0}^\infty
+			\sum_{|\mm| = m} \sum_{|\nn| = n-k}
+			\rho_m \BB^m \bm{\MM}^\mm_\nn
+		\right)
+		\delta^{-n}
+		n!
+\fullstop
+}
+Thus, we can define
+\eqntag{\label{211209181700}
+	\MM_{n+1} 
+		\coleq 
+		\AA^2
+		\left(
+			\MM_{n}
+			+
+			\sum_{k=0}^n
+			\BB^k
+			\sum_{m=0}^\infty
+			\sum_{|\mm| = m} \sum_{|\nn| = n-k}
+			\rho_m \BB^m \bm{\MM}^\mm_\nn
+		\right)
+\fullstop
+}
+
+%===============================================================================
+\paragraph*{Step 5: Construction of $\MM$.}
+To see that $\MM_n \leq \MM^n$ for some $\MM > 0$, we argue as follows.
+Consider the following pair of power series in an abstract variable $t$:
+\eqntag{
+	\hat{p} (t) \coleq \sum_{n=0}^\infty \MM_n t^n
+\qtext{and}
+	\QQ (t) \coleq \sum_{m=0}^\infty \BB^m t^m
+\fullstop
+}
+Notice that $\hat{p} (0) = \MM_0 = 0$ and that $\QQ (t)$ is convergent.
+We will show that $\hat{p} (t)$ is also convergent.
+The key is the observation that they satisfy the following equation, which was found by trial and error:
+\eqntag{\label{211209182719}
+	\hat{p} (t)
+		= \AA^2 \Big( t \hat{p} (t) + t \QQ (t) \QQ \big( \hat{p} (t) \big) \Big)
+		= \AA^2 \left( t \hat{p} (t) 
+			+ t \QQ (t) \sum_{m=0}^\infty \BB^m \hat{p}(t)^m \right)
+\fullstop
+}
+
+%==============================
+\textsc{Step 5.1: Verification.}
+In order to verify this equality, we rewrite the power series $\QQ (t)$ in the following way:
+\vspace{-10pt}
+\eqn{
+	\QQ (t) = \sum_{m=0}^\infty \sum_{|\mm| = m} \rho_m \BB^m t^{\mm}
+\fullstop{,}
+}
+where $t^\mm \coleq t^{m_1} \cdots t^{m_\NN} = t^m$.
+Then \eqref{211209182719} is straightforward to check directly by substituting the power series $\hat{p}(t)$ and $\QQ(t)$ and comparing the coefficients of $t^{n+1}$ using the defining formula \eqref{211209181700} for $\MM_{n+1}$.
+Indeed, using the notation introduced in \eqref{211209180714}, we find:
+\eqns{
+	\hat{p} (t)^{\mm}
+	&= \hat{p} (t)^{m_1} \cdots \hat{p} (t)^{m_\NN}
+\\
+\displaybreak
+	&= 	\left( \sum_{n_1=0}^\infty \MM_{n_1} t^{n_1} \right)^{\!\! m_1}
+		\cdots
+		\left( \sum_{n_\NN=0}^\infty \MM_{n_\NN} t^{n_\NN} \right)^{\!\! m_\NN}
+\\
+	&= 
+	\left(\sum_{n_1=0}^\infty \sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+		\MM_{j_{1,1}} \cdots \MM_{j_{1,m_1}}
+		t^{n_1}
+	\right)
+	\cdots
+	\left(\sum_{n_\NN=0}^\infty \sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+		\MM_{j_{\NN,1}} \cdots \MM_{j_{\NN,m_\NN}}
+		t^{n_\NN}
+	\right)
+\\
+	&=
+	\sum_{n=0}^\infty
+	\sum_{|\nn|=n}
+	\left(\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+		\MM_{j_{1,1}} \cdots \MM_{j_{1,m_1}}
+	\right)
+	\cdots
+	\left(\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+		\MM_{j_{\NN,1}} \cdots \MM_{j_{\NN,m_\NN}}
+	\right)
+	t^n
+\\
+	&=
+	\sum_{n=0}^\infty
+	\sum_{|\nn|=n}
+	\bm{\MM}^\mm_\nn t^n
+\fullstop
+}
+Then the bracketed expression on the righthand side of \eqref{211209182719} expands as follows:
+\eqns{
+	&\phantom{=}~~
+	t \hat{p} (t) +
+	t \left( \sum_{k=0}^\infty \BB^k t^k \right)
+		\left(
+			\sum_{m=0}^\infty \sum_{|\mm| = m} \rho_m \BB^m 
+			\big( \hat{p} (t) \big)^{\mm}
+		\right)
+\\
+	&=
+	\sum_{n=0}^\infty \MM_n t^{n+1} +
+	t \left( \sum_{k=0}^\infty \BB^k t^k \right)
+		\left(
+			\sum_{m=0}^\infty \sum_{|\mm| = m} \rho_m \BB^m
+			\left(
+				\sum_{n=0}^\infty
+				\sum_{|\nn|=n}
+				\bm{\MM}^\mm_\nn t^n
+			\right)
+		\right)
+\\
+	&=
+	\sum_{n=0}^\infty \MM_n t^{n+1} +
+	t \left( \sum_{k=0}^\infty \BB^k t^k \right)
+		\left( \sum_{n=0}^\infty \CC_n t^n \right)
+\qtext{where}
+	\CC_n \coleq \sum_{m=0}^\infty \sum_{|\mm| = m} \sum_{|\nn|=n} \rho_m \BB^m \bm{\MM}^\mm_\nn t^n
+\\
+	&=
+	\sum_{n=0}^\infty \MM_n t^{n+1} +
+	t \sum_{n=0}^\infty \sum_{k=0}^n \BB^k \CC_{n-k} t^n
+\\	&= \sum_{n=0}^\infty 
+		\left(
+			\MM_n +
+			\sum_{k=0}^n \BB^k
+			\sum_{m=0}^\infty \sum_{|\mm| = m}
+			\sum_{|\nn|=n-k} \rho_m \BB^m \bm{\MM}^\mm_\nn
+		\right)
+		t^{n+1}
+\fullstop{,}
+}
+which matches with \eqref{211209181700}.
+
+%==============================
+\textsc{Step 5.2: Implicit Function Theorem argument.}
+Now, consider the following holomorphic function in two complex variables $(t,p)$:
+\eqn{
+	\HH (t,p) \coleq - p + \AA^2 t p + \AA^2 t \QQ(t) \QQ(p)
+\fullstop
+}
+It has the following properties:
+\eqn{
+	\HH (0,0) = 0
+\qqtext{and}
+	\evat{\frac{\del \HH}{\del p}}{(t,p) = (0,0)} = -1 \neq 0
+\fullstop
+}
+By the Holomorphic Implicit Function Theorem, there exists a unique holomorphic function $p (t)$ near $t = 0$ such that $p (t) = 0$ and $\HH \big(t, p (t)\big) = 0$.
+Thus, $\hat{p} (t)$ must be the convergent Taylor series expansion at $t = 0$ for $p(t)$, and so its coefficients grow at most exponentially: i.e., there is a constant $\MM > 0$ such that $\MM_n \leq \MM^n$.
+\end{proof}
+
+
+%===============================================================================
+%===============================================================================
+\section{Exact Perturbation Theory}
+\label{220112110800}
+%===============================================================================
+%===============================================================================
+
+Finally, we are ready to give the proof of our main result.
+
+\begin{proof}[Proof of \autoref{211211131327}.]
+Uniqueness of the solution $f$ is an easy consequence of the asymptotic property \eqref{211211135307}.
+Indeed, suppose $f'$ is another such solution.
+Then their difference $f - f'$ is a holomorphic map $X_0 \times S_0 \to \Complex^r$ which is uniformly Gevrey asymptotic to the zero map as $\hbar \to 0$ along the closed arc $\bar{A}$ of opening angle $\pi$.
+By Nevanlinna's Theorem (\cite[pp.44-45]{nevanlinna1918theorie}; see also \cite[Theorem B.11]{MY2008.06492}), there can only be one holomorphic function on $S_0$ (namely, the constant function $0$) which is Gevrey asymptotic to $0$ as $\hbar \to 0$ along $\bar{A}$, so $f - f'$ must be the zero map.
+
+What remains is to construct the solution $f$ with all the desired properties.
+
+
+
+%===============================================================================
+\paragraph*{Step 0: Strategy and setup.}
+The strategy to construct $f$ is as follows.
+First, we make a preliminary simplifying transformation to put the differential equation \eqref{211211103217} into a standard form.
+An application of the Borel transform induces a first-order PDE which, after a coordinate transformation, can be easily rewritten as an integral equation.
+Most of the hard work is then concentrated on solving this integral equation, which we do using the method of successive approximations.
+The final step is to apply the Laplace transform.
+
+By a simple rotation in the $\hbar$-plane, we assume without loss of generality that $\theta = 0$.
+We also immediately restrict our attention to a Borel disc in the $\hbar$-plane; i.e., without loss of generality, assume that $S = \set{ \hbar ~\big|~ \Re (1/\hbar) > 1/ d}$ for some diameter $d > 0$.
+
+%==============================
+\paragraph*{Step 1: Preliminary transformation.}
+Let $\KK_0 \coleq \diag (\lambda_1, \ldots, \lambda_\NN)$ be the diagonal matrix of eigenvalues of $\JJ_0$ and let $\PP_0 = \PP_0 (x)$ be a holomorphic matrix that diagonalises $\JJ_0$; i.e., 
+\eqntag{\label{211212122544}
+	\PP_0 \JJ_0 \PP_0^{-1} = \KK_0
+\fullstop
+}
+Consider the change of the unknown variable $f \mapsto g$ given by the formula
+\eqntag{\label{211212122637}
+	f = f_0 + \hbar f_1 + \hbar \PP_0^{-1} g
+\fullstop
+}
+We argue that it transforms the differential equation \eqref{211211103217} into one of the form
+\eqntag{\label{211212161202}
+	\hbar \KK_0^{-1} \del_x g - g = \hbar \GG (x, \hbar, g)
+}
+or, written in components for $i = 1, \ldots, \NN$,
+\eqntag{\label{211212161751}
+	\hbar \lambda^{-1}_i \del_x g^i - g^i = \hbar \GG^i (x, \hbar, g)
+\fullstop{,}
+}
+where $\GG = \GG (x, \hbar, w)$ is a holomorphic map $W \times S \times \Complex^\NN_w \to \Complex^\NN$ which admits a Gevrey asymptotic expansion
+\eqntag{\label{211212171723}
+	\GG (x, \hbar, w) \simeq \GG (x, \hbar, w)
+\quad
+\text{as $\hbar \to 0$ along $\bar{A}$,\fullstop{,}}
+}
+uniformly for all $x \in W$ and and locally uniformly for all $w$.
+The argument here is identical to \hyperref[220110161323]{Step 1} in the proof of \autoref{211209171812} (see page \pageref{220110161323}).
+
+%==============================
+\paragraph*{Step 2: The multi-Liouville transformation.}
+Recall the $\NN$ (possibly multivalued) local coordinate transformations $\Phi_i : W_i \to H$ given by \eqref{220111195226}.
+For each $i = 1, \ldots, \NN$, consider the (possibly multivalued) local biholomorphisms
+\eqntag{\label{211212161143}
+	\Phi_\pto{i} \coleq \Phi^{-1}_1 \circ \Phi_i : W_i \too W_1
+\fullstop
+}
+Restrict $x$ to the halfstrip $W_1$.
+Then (after possibly choosing a branch cut or lifting to a universal cover) each new independent variable $x_i \coleq \Phi^{-1}_\pto{i} (x)$ gives a local coordinate on the halfstrip $W_i$.
+For each $i = 1, \ldots, \NN$, make another change of the unknown variable $g$ to $g_\pto{i}$ by $g_\pto{i} = \Phi^\ast_\pto{i} g$; i.e., by the formula $g_\pto{i} (x_i) = g (x)$.
+Note that chain rule gives $\del_x g^i (x) = \del_{x_i} g^i_\pto{i} (x_i)$, so the $i$-th equation \eqref{211212161751}, written in the new independent variable $x_i$ (i.e., pulling this equation back by $\Phi_\pto{i}$), becomes:
+\eqntag{\label{211214125909}
+	\hbar \lambda_i^{-1} \del_{x_i} g^i_\pto{i} - g^i_\pto{i}
+		= \hbar \GG^i 
+			\big(x_i, \hbar; g_\pto{i} \big)
+\fullstop
+}
+The advantage of this point of view is that if we now pull the system \eqref{211214125909} back by the (single-valued) holomorphic map
+\eqntag{
+	\big( \Phi^{-1}_1, \ldots, \Phi^{-1}_\NN \big) : H \too W_1 \times \cdots \times W_\NN
+\fullstop{,}
+}
+we obtain the following coupled system of $\NN$ nonlinear ordinary differential equations on the horizontal halfstrip $H$ for $s = (s^1, \ldots, s^\NN)$ with $s^i = s^i (z, \hbar)$:
+\eqntag{\label{211212163047}
+	\hbar \del_z s - s = \hbar \AA (z, \hbar, s)
+\fullstop{,}
+}
+where $\AA^i (z, \hbar, w) \coleq \GG^i \left( x_i (z), \hbar, w \right)$ for $x_i (z) = \Phi^{-1}_i (z)$, and the unknown variables $s, g_\pto{i}$, and $g$ are related by $s = (\Phi^{-1}_i)^\ast g_\pto{i} = (\Phi^{-1}_1)^\ast g$.
+
+%==============================
+\paragraph*{Step 3: Expansion.}
+Each component $\AA^i$ of $\AA$ can be expressed as a uniformly convergent multipower series in the components $w_1, \ldots, w_\NN$ of $w$:
+\eqntag{\label{211212180241}
+	\AA^i (z, \hbar, w) 
+		= \sum_{m=0}^\infty \sum_{|\mm| = m} \AA^i_\mm (z, \hbar) w^\mm
+\fullstop{,}
+}
+where $\AA^i_\mm w^\mm \coleq \AA^i_{m_1 \cdots m_\NN} w_1^{m_1} \cdots w_\NN^{m_\NN}$.
+It is convenient to separate the $m=1$ term from the sum:
+\eqntag{\label{211212180758}
+	\AA^i (z, \hbar, w) 
+		= \AA^i_{\bm{0}} + \sum_{m=1}^\infty \sum_{|\mm| = m} \AA^i_\mm (z, \hbar) w^\mm
+\fullstop{,}
+}
+where $\bm{0} = (0, \ldots, 0)$.
+Then the system of equations \eqref{211212163047} can be written as
+\eqntag{\label{211212180653}
+	\hbar \del_z s^i - s^i 
+		= \hbar \AA^i_{\bm{0}} + \hbar \sum_{m=1}^\infty \sum_{|\mm| = m} \AA^i_\mm (z, \hbar) s^\mm
+\fullstop
+}
+
+%==============================
+\paragraph*{Step 4: The analytic Borel transform.}
+Let $a_\mm^i = a_\mm^i (z)$ be the $\hbar$-leading-order part of $\AA_\mm^i$ and let $\alpha_\mm^i (z, \xi) \coleq \Borel \big[ \AA^i_\mm \big] (z, \xi)$.
+By assumption, there is some $\epsilon > 0$ such that each $\alpha_\mm^i$ is a holomorphic function on $H \times \Xi$, where 
+\eqn{
+	\Xi \coleq \set{\xi ~\big|~ \op{dist} (\xi, \Real_+) < \epsilon}
+\fullstop{,}
+}
+with uniformly at most exponential growth at infinity in $\xi$, and such that
+\eqntag{\label{211206123333}
+	\AA^i_\mm (z, \hbar) = a^i_\mm (z) + \Laplace \big[\, \alpha^i_\mm \,\big] (z, \hbar)
+}
+for all $(z, \hbar) \in H \times S$ provided that the diameter $d$ of $S$ is sufficiently small.
+
+Dividing each equation \eqref{211212180653} by $\hbar$ and applying the analytic Borel transform, we obtain the following system of $\NN$ coupled nonlinear partial differential equations with convolution:
+\eqntag{\label{211212181832}
+	\del_z \sigma^i - \del_\xi \sigma^i 
+		= \alpha^i_{\bm{0}} 
+		+ \sum_{m=1}^\infty \sum_{|\mm| = m}
+			\Big( a^i_\mm \sigma^{\ast \mm} + \alpha^i_\mm \ast \sigma^{\ast \mm} \Big)
+\fullstop{,}
+}
+where $\sigma^{\ast \mm} \coleq (\sigma^1)^{\ast m_1} \ast \cdots \ast (\sigma^\NN)^{\ast m_\NN}$ and the unknown variables $s^i$ and $\sigma^i$ are related by $\sigma^i = \Borel [s^i]$ and $s^i = \Laplace [\sigma^i]$.
+
+%==============================
+\paragraph*{Step 5: The integral equation.}
+The principal part of the PDE \eqref{211212181832} has constant coefficients, so it is easy to rewrite it as an equivalent integral equation as follows.
+Consider the holomorphic change of variables
+\eqn{
+	(z, \xi) \overset{\TT}{\mapstoo} (\zeta, t) \coleq (z + \xi, \xi)
+\qtext{and its inverse}
+	(\zeta, t) \overset{\TT^{-1}}{\mapstoo} (z, \xi) = (\zeta - t, t)
+\fullstop
+}
+Explicitly, for any function $\alpha = \alpha (z, \xi)$ of two variables,
+\eqn{
+	\TT^\ast \alpha (z, \xi) \coleq \alpha \big( \TT (z, \xi) \big) = \alpha (z + \xi, \xi)
+\qtext{and}
+	\TT_\ast \alpha (\zeta, t) \coleq \alpha \big( \TT^{-1} (\zeta, t) \big) = \alpha (\zeta - t, t)
+\fullstop
+}
+Note that $\TT^\ast \TT_\ast \alpha = \alpha$.
+Under this change of coordinates, the differential operator $\del_z - \del_\xi$ transforms into $- \del_t$, and so the lefthand side of \eqref{211212181832} becomes $- \del_t \big( \TT_\ast \sigma^i)$.
+Integrating from $0$ to $t$, imposing the initial condition $\sigma^i (z, 0) = a^i_{\bm{0}} (z)$, and then applying $\TT^\ast$, we convert the system of PDEs \eqref{211212181832} into the following system of integral equations:
+\eqntag{\label{211212182728}
+	\sigma^i =
+		a^i_{\bm{0}}
+		- \TT^\ast \int_0^t \TT_\ast 
+		\left(
+			\alpha^i_{\bm{0}} 
+			+ \sum_{m=1}^\infty \sum_{|\mm| = m}
+			\Big( a^i_\mm \sigma^{\ast \mm} + \alpha^i_\mm \ast \sigma^{\ast \mm} \Big)
+		\right)
+		\dd{u}
+\fullstop
+}
+More explicitly, this integral equation reads as follows:
+\begin{multline*}
+	\sigma^i (z, \xi)
+		= a^i_{\bm{0}} (z)
+			- \int_0^\xi
+			\Bigg[
+				\alpha^i_{\bm{0}} (z + \xi - u, u)
+\\			
+			\mbox{}\qqqqqqqquad
+				+ \sum_{m=1}^\infty \sum_{|\mm| = m}
+				\Bigg( a^i_\mm (z + \xi - u, u) \cdot \sigma^{\ast \mm} (z + \xi - u, u) 
+\\
+				+ \big(\alpha^i_\mm \ast \sigma^{\ast \mm} \big) (z + \xi - u, u) \Bigg)
+			\Bigg]
+			\dd{u}
+\fullstop
+\end{multline*}
+Here, the integration is done along a straight line segment from $0$ to $\xi$.
+Note also that the convolution products are with respect to the second argument; i.e.,
+\eqns{
+	(\alpha \ast \alpha') (t_1, t_2)
+		&= \int_0^{t_2} \alpha (t_1, t_2 - y) \alpha' (t_1, y) \dd{y}
+\fullstop{,}
+\\
+	(\alpha \ast \alpha' \ast \alpha'') (t_1, t_2)
+		&= \int_0^{t_2} \alpha (t_1, t_2 - y) \int_0^{y} \alpha' (t_1, y - y') \alpha'' (t_1, y') \dd{y'} \dd{y}
+\fullstop
+}
+Introduce the following notation: for any function $\alpha = \alpha (z, \xi)$ of two variables,
+\eqntag{\label{211212183806}
+\small
+	\II \big[ \alpha \big] (z, \xi) 
+		\coleq - \TT^\ast \int_0^t \TT_\ast \alpha \dd{u}
+		= - \int_0^\xi	\alpha (z + \xi - u, u) 	\dd{u}
+		= \int_0^{\xi} \alpha (z + t, \xi - t) \dd{t}
+\fullstop{,}
+}
+where as before the integration path is the straight line segment connecting $0$ to $\xi$.
+Then the system of integral equations \eqref{211212182728} can be written more succinctly as follows:
+\eqntag{\label{211124152233}
+	\sigma^i 
+		= a^i_{\bm{0}}
+		+ \II 
+		\left[ \alpha^i_{\bm{0}} 
+			+ \sum_{m=1}^\infty \sum_{|\mm| = m}
+			\Big( a^i_\mm \sigma^{\ast \mm} + \alpha^i_\mm \ast \sigma^{\ast \mm} \Big)
+		\right]
+\fullstop
+}
+
+%==============================
+\paragraph*{Step 6: Method of successive approximations.}
+To solve this system, we use the method of successive approximations.
+To this end, define a sequence of holomorphic maps $\set{\sigma_n = (\sigma_n^1, \ldots, \sigma_n^\NN) : H \times \Xi \to \Complex^\NN}_{n=0}^\infty$, as follows: for each $i = 1, \ldots, \NN$, let
+\eqntag{\label{211206181512}
+	\sigma^i_0 
+	\coleq a^i_{\bm{0}}
+\fullstop{,}
+\qqquad
+	\sigma^i_1 
+	\coleq \II
+		\left[ \alpha^i_\mathbf{0} 
+			+ \sum_{|\mm| = 1} a^i_\mm \sigma_0^\mm
+		\right]
+\fullstop{,}
+}
+and for all $n \geq 2$,
+\eqntag{\label{211124133914}
+	\sigma^i_n
+	\coleq \II
+		\left[
+			\sum_{m=1}^n \sum_{|\mm| = m}
+			\left( 
+				a^i_\mm \sum_{|\nn| = n - m} \bm{\sigma}^{\mm}_\nn 
+				+ \alpha^i_\mm \ast \sum_{|\nn| = n - m -1} \bm{\sigma}^{\mm}_\nn
+			\right)
+		\right]
+\fullstop
+}
+Here, we have introduced the following notation: for any $\nn, \mm \in \Natural^\NN$,
+\eqntag{\label{211207111746}
+	\bm{\sigma}_\nn^\mm
+	\coleq
+		\left(
+			\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+			\sigma^1_{j_{1,1}} \ast \cdots \ast \sigma^1_{j_{1,m_1}}
+		\right)
+			\ast
+			\cdots
+			\ast
+		\left(
+			\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+			\sigma^\NN_{j_{\NN,1}} \ast \cdots \ast \sigma^\NN_{j_{\NN,m_\NN}}
+		\right)
+\fullstop
+}
+Let us also note the following simple but useful identities: 
+\begin{gather}
+	\bm{\sigma}^{\bm{0}}_{\bm{0}} = 1\fullstop{;}
+	\qquad
+	\bm{\sigma}^{\bm{0}}_\nn = 0 \text{ whenever $|\nn| > 0$\fullstop{;}}
+\\
+\label{211215153152}
+	\bm{\sigma}^{\mm}_{\bm{0}}
+		= (\sigma^1_0)^{\ast m_1} \ast \cdots \ast (\sigma^\NN_0)^{\ast m_\NN}
+%		= (\sigma^1_0)^{m_1} \cdots (\sigma^\NN_0)^{m_\NN}
+		= \tfrac{1}{(m-1)!}\sigma_0^\mm \xi^{m-1}
+\fullstop
+\end{gather}
+
+The crux of the argument is the following lemma.
+
+%===============================================================================
+\paragraph*{Main Lemma.}
+\textit{Fix any $r_0 \in (0, r)$ and let $H_0 \coleq \set{ z ~\big|~ \op{dist} (z, \Real_+) < r_0} \subset H$.
+Let $\epsilon$ (which is the thickness of the halfstrip $\Xi$) be so small that $\epsilon < r - r_0$.
+Then the infinite series 
+\eqntag{\label{211212185410}
+	\sigma (z, \xi) \coleq \sum_{n=0}^\infty \sigma_n (z, \xi)
+}
+defines a holomorphic solution of the system of integral equations \eqref{211124152233} on the domain
+\eqn{
+	\mathbf{H} \coleq \set{ (z, \xi) \in H \times \Xi ~\big|~ z + \xi \in H}
+}
+where it has uniformly at-most-exponential growth at infinity in $\xi$; more precisely, there are constants $\DD, \KK > 0$ such that
+\eqntag{\label{211214194634}
+	\big| \sigma (x, \xi) \big| \leq \DD e^{\KK |\xi|}
+\qquad
+\text{$\forall (x, \xi) \in \mathbf{H}$\fullstop}
+}
+Furthermore, the formal Borel transform 
+\eqntag{
+	\hat{\sigma} (z, \xi) =
+	\hat{\Borel} [ \, \hat{s} \, ] (z, \xi)
+		= \sum_{n=0}^\infty \tfrac{1}{n!} s_{n+1} (z) \xi^n
+}
+of the formal solution $\hat{s} (z, \hbar)$ of \eqref{211212163047} is the Taylor series expansion of $\sigma$ at $\xi = 0$.
+In particular, $\sigma$ is a well-defined holomorphic solution on $H_0 \times \Xi \subset \mathbf{H}$ where it satisfies the exponential estimate \eqref{211214194634}.
+}
+
+Before proving this lemma, let us explain how it implies our main theorem.
+
+%==============================
+\paragraph*{Step 7: Laplace transform.}
+Assuming the Main Lemma, only one step remains in order to complete the proof of \autoref{211211131327}, which is to apply the Laplace transform to $\sigma$:
+\eqntag{\label{211212191637}
+	s (z, \hbar)
+		\coleq \Laplace \big[ \, \sigma \, \big] (z, \hbar)
+		= \int_0^{+\infty} e^{-\xi/\hbar} \sigma (z, \xi) \dd{\xi}
+\fullstop
+}
+Thanks to the exponential estimate \eqref{211214194634}, this Laplace integral is uniformly convergent for all $z \in H_0$ provided that ${\Re (1/\hbar) > \KK}$.
+Thus, if we take $d_0 \in (0, d]$ strictly smaller than $1/\KK$, then formula \eqref{211212191637} defines a holomorphic solution of the differential equation \eqref{211212163047} on the domain $H_0 \times S_0$ where $S_0 \coleq \set{ \hbar ~\big|~ \Re (1/\hbar) > 1 / d_0 }$.
+Furthermore, Nevanlinna's Theorem  (\cite[pp.44-45]{nevanlinna1918theorie}; see also \cite[Theorem B.11]{MY2008.06492}) implies that $s$ admits a uniform Gevrey asymptotic expansion on $H_0$ as $\hbar \to 0$ along $\bar{A}$, and this asymptotic expansion is necessarily the formal solution $\hat{s}$.
+
+Undoing all the changes of variables we made at the beginning of the proof, we define a holomorphic solution $g_\pto{i}$ of \eqref{211214125909} for $x_i \in W'_i \coleq \Phi^{-1}_i (H_0)$ and $\hbar \in S_0$ by
+\eqntag{\label{220110205200}
+	g_\pto{i} (x_i, \hbar) 
+		\coleq \Phi^\ast_i s (x_i, \hbar)
+		= \Phi^\ast_i \Laplace \big[ \, \sigma \, \big] (x_i, \hbar)
+		= \int_0^{+\infty} e^{-\xi/\hbar} \sigma \big( \Phi_i (x_i), \xi \big) \dd{\xi}
+\fullstop{,}
+}
+and consequently a holomorphic solution $g$ of \eqref{211212161751} on $W'_1 \times S_0$ given by
+\eqntag{\label{220110205203}
+	g (x, \hbar)
+		= \int_0^{+\infty} e^{-\xi/\hbar} \sigma \big( \Phi_1 (x), \xi \big) \dd{\xi}
+}
+Note that if the Liouville transformations $\Phi_i$ are multi-valued, then functions all functions $a^i_\mm$ and $\alpha^i_\mm$ are correspondingly periodic in $z$.
+The recursive formula \eqref{211124133914} clearly shows that each holomorphic function $\sigma^i$ has the same period in $z$, and consequently the pullback of $s^i$ under the multi-valued map $\Phi_i$ is well-defined.
+Therefore, $g$ yields a holomorphic solution of the original differential equation \eqref{211211103217} on $W'_1 \times S_0$ defined by $f = f_0 + \hbar f_1 + \hbar \PP_0^{-1} g$ with all the desired properties.
+This completes the proof of \autoref{211211131327} assuming the Main Lemma.
+
+We now present the proof of the Main Lemma, contained in steps 8 and 9.
+
+%==============================
+\paragraph*{Step 8: Solution Check.}
+First, assuming that the infinite series $\sigma$ is uniformly convergent for all $(z, \xi) \in \mathbf{H}$, we verify that it satisfies the integral equation \eqref{211124152233} by direct substitution.
+Thus, the righthand side of \eqref{211124152233} becomes:
+\eqntag{\label{211206194021}
+	a^i_\mathbf{0} + \II
+		\left[ \alpha^i_\mathbf{0}
+			+ \BLUE{\sum_{m=1}^\infty \sum_{|\mm|=m} 
+				a^i_\mm \left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}}
+			+ \sum_{m=1}^\infty \sum_{|\mm|=m}
+				\alpha^i_\mm \ast \left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}
+		\right]
+\GREY{.}
+}
+Using the notation introduced in \eqref{211207111746}, the $\mm$-fold convolution product of the infinite series $\sigma$ expands as follows:
+\eqns{
+	&\phantom{=}~~
+	\left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}
+\\		&= 	\left(\:
+				\sum_{n_1=0}^\infty \sigma_{n_1}^1
+			\right)^{\!\!\!\ast m_1} \!\!\!\!\!\!\!
+			\ast \cdots \ast
+			\left(\:
+				\sum_{n_\NN=0}^\infty \sigma_{n_\NN}^\NN
+			\right)^{\!\!\!\ast m_\NN}
+\\
+		&= 	\left(\:
+				\sum_{n_1=0}^\infty \sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+				\sigma^1_{j_{1,1}} \ast \cdots \ast \sigma^1_{j_{1,m_1}}
+			\right)
+			\ast \cdots \ast
+			\left(\:
+				\sum_{n_\NN=0}^\infty \sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+				\sigma^\NN_{j_{\NN,1}} \ast \cdots \ast \sigma^\NN_{j_{\NN,m_\NN}}
+			\right)
+\\
+		&=	\sum_{n=0}^\infty \sum_{|\nn|=n}
+			\left(
+				\sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}}
+				\sigma^1_{j_{1,1}} \ast \cdots \ast \sigma^1_{j_{1,m_1}}
+			\right)
+				\ast
+				\cdots
+				\ast
+			\left(
+				\sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}}
+				\sigma^\NN_{j_{\NN,1}} \ast \cdots \ast \sigma^\NN_{j_{\NN,m_\NN}}
+			\right)
+\\
+		&= 	\sum_{n=0}^\infty \sum_{|\nn|=n}
+			\bm{\sigma}_\nn^\mm
+\fullstop
+}
+Use this to rewrite the \BLUE{blue} terms in \eqref{211206194021}, separating out first the \GREEN{$m=1$ part} and then the \ORANGE{$(m,n)=(1,1)$ part} using the identity \eqref{211215153152}:
+\eqns{
+	&\phantom{=}~~~
+	\BLUE{\sum_{m=1}^\infty \sum_{|\mm|=m} 
+				a^i_\mm \left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}}
+	\!\!\!\!
+%\\	&=
+%		\GREEN{\sum_{|\mm|=1} 
+%				a^i_\mm \left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}}
+%		+ \sum_{m=2}^\infty \sum_{|\mm|=m} 
+%				a^i_\mm \left(\:\sum_{n=0}^\infty \sigma_n\right)^{\!\!\!\ast \mm}
+\\
+	&=
+		\GREEN{\sum_{|\mm|=1} 
+				a^i_\mm 
+				\sum_{n=0}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+				}
+		+ \sum_{m=2}^\infty \sum_{|\mm|=m} 
+				a^i_\mm
+				\sum_{n=0}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+\\
+	&=
+		\ORANGE{\sum_{|\mm|=1} 
+				a^i_\mm \sigma_0^\mm
+				}
+				+
+				\sum_{|\mm|=1} 
+				a^i_\mm 
+				\sum_{n=1}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+		+ \sum_{m=2}^\infty \sum_{|\mm|=m} 
+				a^i_\mm
+				\sum_{n=0}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+\fullstop
+}
+Substituting this back into \eqref{211206194021} and using \eqref{211206181512}, we find:
+\vspace{-10pt}
+\begin{multline}
+\label{211207125028}
+	\sigma^i_0 + \ORANGE{\sigma^i_1} + \II
+		\left[
+			\sum_{|\mm|=1} 
+				a^i_\mm 
+				\sum_{n=1}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+			+ \sum_{m=2}^\infty \sum_{|\mm|=m} 
+				a^i_\mm
+				\sum_{n=0}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+		\right.
+\\
+		\left.
+			+ \sum_{m=1}^\infty \sum_{|\mm|=m}
+				\alpha^i_\mm \ast 
+				\sum_{n=0}^\infty \sum_{|\nn|=n}
+				\bm{\sigma}_\nn^\mm
+		\right]
+\fullstop
+\end{multline}
+The goal is to show that the the integral in \eqref{211207125028} is equal to $\sum_{n \geq 2} \sigma^i_n$.
+Focus on the expression inside the integral:
+\vspace{-5pt}
+\eqn{
+	{\sum_{|\mm|=1} \!\!
+		a^i_\mm 
+		\sum_{n=1}^\infty \sum_{|\nn|=n} \!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \BLUE{\sum_{m=2}^\infty \sum_{|\mm|=m} \!\!
+		a^i_\mm
+		\sum_{n=0}^\infty \sum_{|\nn|=n} \!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \GREEN{\sum_{m=1}^\infty \sum_{|\mm|=m} \!\!\!
+		\alpha^i_\mm \ast \!
+		\sum_{n=0}^\infty \sum_{|\nn|=n} \!\!
+		\bm{\sigma}_\nn^\mm}
+\fullstop
+}
+Shift the summation index $n$ up by $1$ in the black sum, by $m$ in the \BLUE{blue} sum, and by $m+1$ in the \GREEN{green} sum:
+\vspace{-5pt}
+\eqn{
+	{\sum_{|\mm|=1} \!\!
+		a^i_\mm 
+		\sum_{n=\ORANGE{2}}^\infty \sum_{|\nn|=\ORANGE{n-1}} \!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \BLUE{\sum_{m=2}^\infty \sum_{|\mm|=m} \!\!\!
+		a^i_\mm
+		\sum_{n=\ORANGE{m}}^\infty \sum_{|\nn|=\ORANGE{n-m}} \!\!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \GREEN{\sum_{m=1}^\infty \sum_{|\mm|=m} \!\!\!
+		\alpha^i_\mm \ast \!\!\!\!
+		\sum_{n=\ORANGE{m+1}}^\infty \sum_{|\nn|=\ORANGE{n-m-1}} \!\!\!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+\fullstop
+}
+Notice that all terms in the \BLUE{blue} sum with $n < m$ are zero, so we can start the summation over $n$ from $n = 2$ (which is the lowest possible value of $m$) without altering the result.
+Similarly, all terms in the \GREEN{green} sum with $n < m + 1$ are zero, so we may as well start from $n = 2$.
+The black sum is left unaltered.
+Thus, we get:
+\vspace{-5pt}
+\eqn{
+	{\sum_{|\mm|=1} \!\!
+		a^i_\mm 
+		\sum_{n=2}^\infty \sum_{|\nn|=n-1} \!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \BLUE{\sum_{m=2}^\infty \sum_{|\mm|=m} \!\!\!
+		a^i_\mm
+		\sum_{n=\ORANGE{2}}^\infty \sum_{|\nn|={n-m}} \!\!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+	+ \GREEN{\sum_{m=1}^\infty \sum_{|\mm|=m} \!\!\!
+		\alpha^i_\mm \ast \!
+		\sum_{n=\ORANGE{2}}^\infty \sum_{|\nn|={n-m-1}} \!\!\!\!\!\!
+		\bm{\sigma}_\nn^\mm}
+\fullstop
+}
+The advantage of this way of expressing the sums is that we can now interchange the summations over $m$ and $n$ to obtain:
+\vspace{-5pt}
+\eqn{
+	\ORANGE{\sum_{n=2}^\infty}
+	\left\{
+		{\sum_{|\mm|=1} \!
+			a^i_\mm \!\!\!
+			\sum_{|\nn|=n-1} \!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+		+ \BLUE{\sum_{m=2}^\infty \sum_{|\mm|=m} \!\!\!
+			a^i_\mm \!\!\!
+			\sum_{|\nn|={n-m}} \!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+		+ \GREEN{\sum_{m=1}^\infty \sum_{|\mm|=m} \!\!\!
+			\alpha^i_\mm \ast  \!\!\!\!\!
+			\sum_{|\nn|={n-m-1}} \!\!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+	\right\}
+\fullstop
+}
+Observe that the black sum fits well into the \BLUE{blue} sum over $m$ to give the $m=1$ term.
+So we get:
+\eqn{
+	\sum_{n=2}^\infty \sum_{m=1}^\infty \sum_{|\mm|=m}
+	\left\{
+		\BLUE{	a^i_\mm \!\!\!
+			\sum_{|\nn|={n-m}} \!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+		+ \GREEN{
+			\alpha^i_\mm \ast  \!\!\!\!\!
+			\sum_{|\nn|={n-m-1}} \!\!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+	\right\}
+\fullstop
+}
+Finally, notice that both sums are empty for $m > n$, so we get:
+\eqn{
+	\sum_{n=2}^\infty \sum_{m=1}^{\ORANGE{n}} \sum_{|\mm|=m}
+	\left\{
+		\BLUE{	a^i_\mm \!\!\!
+			\sum_{|\nn|={n-m}} \!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+		+ \GREEN{
+			\alpha^i_\mm \ast  \!\!\!\!\!
+			\sum_{|\nn|={n-m-1}} \!\!\!\!\!\!
+			\bm{\sigma}_\nn^\mm}
+	\right\}
+\fullstop
+}
+The sum over $m$ is precisely the expression inside the integral in \eqref{211124133914} defining $\sigma_n^i$.
+This shows that $\sigma$ satisfies the integral equation \eqref{211124152233}.
+
+%==============================
+\paragraph*{Step 9: Convergence.}
+Now we show that $\sigma$ is a uniformly convergent series on $\mathbf{H}$ and therefore defines a holomorphic map $\mathbf{H} \to \Complex^\NN$.
+In the process, we also establish the estimate \eqref{211214194634}.
+
+Let $\BB, \CC, \LL > 0$ be such that for all $(z, \xi) \in \mathbf{H}$, all $j = 1, \ldots, \NN$, and all $\mm \in \Natural^\NN$,
+\eqntag{\label{211207142232}
+	\big| a^i_\mm (z) \big| \leq \rho_m \CC \BB^{m}
+\qqtext{and}
+	\big| \alpha^i_\mm (z, \xi) \big| \leq \rho_m \CC \BB^{m} e^{\LL |\xi|}
+\fullstop{,}
+}
+where $m = |\mm|$ and $\rho_m$ is the normalisation constant \eqref{211209172628}.
+We claim that there are constants $\DD, \MM > 0$ such that for all $(z, \xi) \in \mathbf{H}$ and all $n \in \Natural$,
+\eqntag{\label{211207142237}
+	\big| \sigma^i_n (z, \xi) \big| \leq \DD \MM^n \frac{|\xi|^n}{n!} e^{\LL |\xi|}
+\fullstop
+}
+If we achieve \eqref{211207142237}, then the uniform convergence and the exponential estimate \eqref{211214194634} both follow at once because
+\eqn{
+	\big| \sigma^i (z, \xi) \big|
+		\leq \sum_{n=0}^\infty \big| \sigma_n^i (z, \xi) \big|
+		\leq \sum_{n=0}^\infty \DD \MM^n \frac{|\xi|^n}{n!} e^{\LL |\xi|}
+		\leq \DD e^{(\MM + \LL) |\xi|}
+\fullstop
+}
+To demonstrate \eqref{211207142237}, we proceed in two steps.
+First, we construct a sequence of positive real numbers $\set{\MM_n}_{n=0}^\infty$ such that for all $n \in \Natural$ and all $(z, \xi) \in \mathbf{H}$,
+\eqntag{\label{211215185429}
+	\big| \sigma_n^i (z, \xi) \big| \leq \MM_n \frac{|\xi|^n}{n!} e^{\LL |\xi|}
+\fullstop
+}
+We will then show that there are constants $\DD, \MM$ such that $\MM_n \leq \DD \MM^n$ for all $n$.
+
+%==============================
+\paragraph*{Step 9.1: Construction of $\set{\MM_n}$.}
+We can take $\MM_0 \coleq \CC$ and $\MM_1 \coleq \CC (1 + \BB \MM_0)$ because $\sigma_0^i = a^i_{\bm{0}}$ and
+\eqns{
+	\big| \sigma_1^i \big|
+	&\leq \int_0^\xi 
+		\left( 
+			|\alpha^i_{\bm{0}}| 
+			+ \sum_{|\mm| = 1} |a^i_\mm| |\sigma_0^\mm|
+		\right) |\dd{t}|
+	\leq \int_0^\xi
+		\left( 
+			\CC e^{\LL |t|}
+			+ \CC^2 \BB \rho_1 \sum_{|\mm| = 1} 1
+		\right) |\dd{t}|
+\\
+	&\leq \CC (1 + \BB \MM_0) \int_0^{|\xi|} e^{\LL s} \dd{s}
+	\leq \CC (1 + \BB \MM_0) |\xi| e^{\LL |\xi|}
+\fullstop{,}
+}
+where in the final step we used \autoref{180824194855}.
+Now, let us assume that we have already constructed the constants $\MM_0, \ldots, \MM_{n-1}$ such that $|\sigma_k^i| \leq \MM_k \frac{|\xi|^k}{k!} e^{\LL |\xi|}$ for all $k = 0, \ldots, n-1$ and all $i = 1, \ldots, \NN$.
+Then we use formula \eqref{211124133914} together with \autoref{180824194855} and \autoref{211205075846} in order to derive an estimate for $\sigma_n$.
+
+First, let us write down an estimate for $\bm{\sigma}_\nn^\mm$ using formula \eqref{211207111746}.
+Thanks to \autoref{211205075846}, we have for each $i = 1, \ldots, \NN$ and all $n_i,m_i$:
+\eqn{
+	\sum_{|\jj_i| = n_i}^{\jj_i \in \Natural^{m_i}}
+			\Big|
+				\sigma^i_{j_{i,1}} \ast \cdots \ast \sigma^i_{j_{i,m_i}}
+			\Big|
+	\leq \sum_{|\jj_i| = n_i}^{\jj_i \in \Natural^{m_i}}  \!\!
+			\MM_{j_{i,1}} \cdots \MM_{j_{i,m_i}}
+			\frac{|\xi|^{n_i + m_i - 1}}{(n_i + m_i - 1)!} e^{\LL |\xi|}
+\fullstop
+}
+Then, for all $\nn,\mm \in \Natural^\NN$, using the shorthand introduced in \eqref{211209180714},
+\eqntag{
+	\big| \bm{\sigma}^\mm_\nn \big|
+		\leq
+			\bm{\MM}^\mm_\nn
+			\frac{|\xi|^{|\nn| + |\mm| - 1}}{(|\nn| + |\mm| - 1)!} e^{\LL |\xi|}
+\fullstop
+}
+Therefore, formula \eqref{211124133914} gives the following estimate:
+\eqns{
+	|\sigma_n^i|
+	&\leq \int_0^\xi \sum_{m=1}^n \sum_{|\mm|=m}
+		\left\{ |a^i_\mm| \!\! \sum_{|\nn|=n-m} \!\!\!
+			\big| \bm{\sigma}_\nn^\mm \big|  
+			+ \!\!\!\! \sum_{|\nn|=n-m-1} \!\!\!\!\!\!
+			\big| \alpha_\mm^i \ast \bm{\sigma}_\nn^\mm \big|
+		\right\} |\dd{t}|
+\\	
+	&\leq \sum_{m=1}^n \sum_{|\mm|=m}
+		\left\{
+			\rho_m \CC \BB^m \!\! \sum_{|\nn|=n-m} \!\!\! \bm{\MM}^\mm_\nn
+			+ \rho_m \CC \BB^m 
+				\!\!\!\!\! \sum_{|\nn|=n-m-1} \!\!\!\!\!\! \bm{\MM}^\mm_\nn
+		\right\}
+		\int_0^\xi \frac{|t|^{n - 1}}{(n - 1)!} e^{\LL |t|} |\dd{t}|
+\\
+	&\leq \sum_{m=1}^n
+		\rho_m \CC \BB^m
+		\sum_{|\mm|=m}
+		\left\{
+			\sum_{|\nn|=n-m} \!\!\! \bm{\MM}^\mm_\nn
+			+ \!\!\! \sum_{|\nn|=n-m-1} \!\!\!\!\!\! \bm{\MM}^\mm_\nn
+		\right\}
+		\frac{|\xi|^n}{n!} e^{\LL |\xi|}
+}
+Thus, this expression allows us to define the constant $\MM_n$ for $n \geq 2$.
+In fact, a quick glance at this formula reveals that it can be extended to $n = 0, 1$ by defining
+\eqntag{\label{211207174849}
+	\MM_n \coleq
+		\sum_{m=0}^n
+			\rho_m \CC \BB^m
+		\sum_{|\mm|=m}
+		\left\{
+			\sum_{|\nn|=n-m} \!\!\! \bm{\MM}^\mm_\nn
+			+ \!\!\! \sum_{|\nn|=n-m-1} \!\!\!\!\!\! \bm{\MM}^\mm_\nn
+		\right\}
+\qqquad
+	\forall n \in \Natural
+\fullstop
+}
+Indeed, if $m = 0$, then the two sums inside the brackets can only possibly be nonzero when $n = 0$, in which case the second sum is empty and the first sum is $1$, so we recover $\MM_0 = \CC$.
+Likewise, if $n = 1$, then the $m = 0$ term is $0 + \CC$ and the $m=1$ term is $\CC \BB \MM_0 + 0$, so again we recover the constant $\MM_1$ defined previously.
+
+%==============================
+\paragraph*{Step 9.2: Bounding $\MM_n$.}
+To see that $\MM_n \leq \DD \MM^n$ for some $\DD, \MM > 0$, consider the following two power series in an abstract variable $t$:
+\eqntag{\label{211207181737}
+	\hat{p} (t) \coleq \sum_{n=0}^\infty \MM_n t^n
+\qqtext{and}
+	\QQ (t) 
+		\coleq \sum_{m=0}^\infty \CC \BB^m t^m
+%		= \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+%			\rho_m \CC \BB^m t^\mm
+\fullstop
+}
+Notice that $\QQ (t)$ is convergent and $\QQ (0) = \CC = \MM_0$.
+We will show that $\hat{p} (t)$ is also a convergent power series.
+The key observation is that $\hat{p}$ satisfies the following functional equation:
+\eqntag{\label{211207181733}
+	\hat{p} (t) = (1+t) \QQ \big( t \hat{p} (t) \big)
+\fullstop
+}
+This equation was found by trial and error.
+In order to verify it, we rewrite the power series $\QQ (t)$ in the following way:
+\eqntag{
+	\QQ (t)	= \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+			\rho_m \CC \BB^m t^\mm
+\fullstop
+}
+Then \eqref{211207181733} is straightforward to verify by direct substitution and comparing the coefficients of $t^n$ using the defining formula \eqref{211207174849} for $\MM_n$.
+Thus, the righthand side of \eqref{211207181733} expands as follows:
+\eqns{
+	&\phantom{=}~~
+	(1+t) \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+		\rho_m \CC \BB^m 
+		\left( t \sum_{n=0}^\infty \MM_n t^n \right)^{\!\!\mm}
+\\
+	&= (1+t) \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+		\rho_m \CC \BB^m t^m
+		\left( \sum_{n_1=0}^\infty \MM_{n_1} t^{n_1} \right)^{\!\!m_1} \!\!\!\!
+		\cdots
+		\left( \sum_{n_\NN=0}^\infty \MM_{n_\NN} t^{n_\NN} \right)^{\!\!m_\NN}
+%\\
+%	&= (1+t) \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+%		\rho_m \CC \BB^m
+%		\left( \sum_{n_1 = 0}^\infty \sum_{|\jj_1| = n_1}^{\jj_1 \in \Natural^{m_1}} \MM_{\jj_1} t^{n_1} \right)
+%		\cdots
+%		\left( \sum_{n_\NN = 0}^\infty \sum_{|\jj_\NN| = n_\NN}^{\jj_\NN \in \Natural^{m_\NN}} \MM_{\jj_\NN} t^{n_\NN} \right)
+%		t^m
+\\
+	&= (1+t) \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+		\rho_m \CC \BB^m
+		\sum_{n=0}^\infty \sum_{|\nn|=n} \bm{\MM}^\mm_\nn t^{n+m}
+\\
+	&= (1+t) \sum_{m=0}^\infty \sum_{|\mm|=m} \!\!
+		\rho_m \CC \BB^m
+		\sum_{n=0}^\infty
+		\sum_{|\nn|=\ORANGE{n-m}} \bm{\MM}^\mm_\nn t^{\ORANGE{n}}
+\\
+	&= \sum_{n=0}^\infty \sum_{m=0}^\infty
+		\rho_m \CC \BB^m \!\!
+		\sum_{|\mm|=m}
+		\left\{
+			\sum_{|\nn|=n-m} \bm{\MM}^\mm_\nn t^{n}
+			+ \sum_{|\nn|=n-m} \bm{\MM}^\mm_\nn t^{n+1}
+		\right\}
+\\
+	&= \sum_{n=0}^\infty \sum_{m=0}^{\ORANGE{n}}
+		\rho_m \CC \BB^m \!\!
+		\sum_{|\mm|=m}
+		\left\{
+			\sum_{|\nn|=n-m} \bm{\MM}^\mm_\nn
+			+ \sum_{|\nn|=\ORANGE{n-m-1}} \bm{\MM}^\mm_\nn
+		\right\}
+		t^{n}
+}
+In the final equality, we once again noticed that both sums inside the curly brackets are zero whenever $m > n$.
+
+Now, consider the following holomorphic function in two variables $(t,p)$:
+\eqntag{
+	\FF (t, p) \coleq - p + (1+t) \QQ (tp)
+\fullstop
+}
+It has the following properties:
+\eqn{
+	\FF (0, \CC) = 0
+\qqtext{and}
+	\evat{\frac{\del \PP}{\del p}}{(t,p) = (0, \CC)} = - 1 \neq 0
+\fullstop
+}
+By the Holomorphic Implicit Function Theorem, there exists a unique holomorphic function $p(t)$ near $t = 0$ such that $p(0) = \CC$ and $\FF \big(t, p(t)\big) = 0$.
+Therefore, $\hat{p} (t)$ must be the convergent Taylor series expansion of $p(t)$ at $t = 0$, so its coefficients grow at most exponentially: i.e., there are constants $\DD, \MM > 0$ such that $\MM_n \leq \DD \MM^n$.
+This completes the proof of the Main Lemma and hence of \autoref{211211131327}.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+%===============================================================================
+%:	APPENDIX
+%===============================================================================
+%\newpage
+\begin{appendices}
+\appendixsectionformat
+
+%===============================================================================
+%===============================================================================
+\section{Background Information}
+\label{211215112252}
+%===============================================================================
+%===============================================================================
+
+Our notation, conventions, and definitions from Gevrey asymptotics and Borel-Laplace theory are consistent with those given in Appendices A and B in \cite{MY2008.06492}.
+Here, we give a brief summary to make this paper self-contained.
+
+%===============================================================================
+%===============================================================================
+\subsection{Gevrey Asymptotics}
+\label{211215123326}
+%===============================================================================
+%===============================================================================
+
+%===============================================================================
+\paragraph{}
+A \dfn{sectorial domain} at the origin in $\Complex_\hbar$ is a simply connected domain $S \subset \Complex_\hbar^\ast = \Complex_\hbar \setminus \set{0}$ whose closure $\bar{S}$ in the real-oriented blowup $[\Complex_\hbar : 0]$ intersects the boundary circle $\Sphere^1$ in a closed arc $\bar{A} \subset \Sphere^1$ with nonzero length.
+The open arc $A$ is called the \dfn{opening} of $S$, and its length $|A|$ is called the \dfn{opening angle} of $S$.
+A \dfn{Borel disc} of \dfn{diameter} $\RR >0$ is the sectorial domain $S = \set{ \hbar \in \Complex_\hbar ~\big|~ \Re (1/\hbar) > 1/\RR }$.
+Its opening is $A = (-\tfrac{\pi}{2}, + \tfrac{\pi}{2})$.
+Likewise, a Borel disc bisected by a direction $\theta \in \Sphere^1$ is the sectorial domain $S = \set{ \hbar \in \Complex_\hbar ~\big|~ \Re (e^{i\theta}/\hbar) > 1/\RR }$.
+Its opening is $A = (\theta -\tfrac{\pi}{2}, \theta + \tfrac{\pi}{2})$.
+
+%===============================================================================
+\paragraph{}
+A holomorphic function $f (\hbar)$ on a sectorial domain $S$ is admits a power series $\hat{f} (\hbar)$ as its \dfn{asymptotic expansion as $\hbar \to 0$ along $A$} (or \dfn{as $\hbar \to 0$ in $S$}) if, for every $n \geq 0$ and every compactly contained subarc $A_0 \Subset A$, there is a sectorial subdomain $S_0 \subset S$ with opening $A_0$ and a real constant $\CC_{n,0} > 0$ such that
+\eqntag{\label{200720153758}
+	\left| f(\hbar) - \sum_{k=0}^{n-1} f_k \hbar^k \right| \leq \CC_{n,0} |\hbar|^n
+}
+for all $\hbar \in S_0$.
+The constants $\CC_{n,0}$ may depend on $n$ and the opening $A_0$.
+If this is the case, we write
+\vspace{-7.5pt}
+\eqntag{\label{200720175735}
+	f (\hbar) \sim \hat{f} (\hbar)
+\qqqquad
+	\text{as $\hbar \to 0$ along $A$\fullstop}
+}
+If the constants $\CC_{n,0}$ in \eqref{200720153758} can be chosen uniformly for all compactly contained subarcs $A_0 \Subset A$ (i.e., independent of $A_0$ so that $\CC_{n,0} = \CC_n$ for all $n$), then we write
+\eqntag{\label{210220160756}
+	f (\hbar) \sim \hat{f} (\hbar)
+\qqqquad
+	\text{as $\hbar \to 0$ along $\bar{A}$\fullstop}
+}
+
+%===============================================================================
+\paragraph{}
+We also say that the holomorphic function $f$ admits $\hat{f}$ as its \dfn{Gevrey asymptotic expansion as $\hbar \to 0$ along $A$} if the constants $\CC_{n,0}$ in \eqref{200720153758} depend on $n$ like $\CC_0 \MM_0^n n!$.
+More explicitly, for every compactly contained subarc $A_0 \Subset A$, there is a sectorial domain $S_0 \subset S$ with opening $A_0 \Subset A$ and real constants $\CC_0, \MM_0 > 0$ which give the bounds
+\eqntag{\label{200722160158}
+	\left| f(\hbar) - \sum_{k=0}^{n-1} f_k \hbar^k \right| \leq \CC_0 \MM_0^n n! |\hbar|^n
+}
+for all $\hbar \in S_0$ and all $n \geq 0$.
+In this case, we write
+\eqntag{\label{210225131044}
+	f (\hbar) \simeq \hat{f} (\hbar)
+\qqqquad
+	\text{as $\hbar \to 0$ along $A$\fullstop}
+}
+If in addition to \eqref{200722160158}, the constants $\CC_0, \MM_0$ can be chosen uniformly for all $A_0 \Subset A$, then we will write
+\vspace{-5pt}
+\eqntag{\label{210225134416}
+	f (\hbar) \simeq \hat{f} (\hbar)
+\qqqquad
+	\text{as $\hbar \to 0$ along $\bar{A}$\fullstop}
+}
+
+%===============================================================================
+\paragraph{}
+A formal power series $\hat{f} (\hbar) = \sum f_n \hbar^n$ is a \dfn{Gevrey power series} if there are constants $\CC, \MM > 0$ such that for all $n \geq 0$,
+\eqntag{\label{200723182724}
+	| f_n | \leq \CC \MM^n n!
+\fullstop
+}
+
+%===============================================================================
+\paragraph{}
+All the above definitions translate immediately to cover vector-valued holomorphic functions on $S$ by using, say, the Euclidean norm in all the above estimates.
+
+
+
+
+%===============================================================================
+%===============================================================================
+\subsection{Borel-Laplace Theory}
+\label{211215123550}
+%===============================================================================
+%===============================================================================
+
+%===============================================================================
+\paragraph{}
+\label{211215140949}
+Let $\Xi_\theta \coleq \set{ \xi \in \Complex_\xi ~\big|~ \op{dist} (\xi, e^{i\theta}\Real_+) < \epsilon}$, where $e^{i \theta} \Real_+$ is the real ray in the direction $\theta$.
+Let $\lambda = \lambda (\xi)$ be a holomorphic function on $\Xi_\theta$.
+Its \dfn{Laplace transform} in the direction $\theta$ is defined by the formula:
+\eqntag{\label{200624181217}
+	\Laplace_\theta [\, \lambda \,] (x, \hbar)
+		\coleq \int\nolimits_{e^{i\theta} \Real_+} \lambda (x, \xi) e^{-\xi/\hbar} \dd{\xi}
+\fullstop
+}
+When $\theta = 0$, we write simply $\Laplace$.
+Clearly, $\lambda$ is Laplace-transformable in the direction $\theta$ if $\lambda$ has \dfn{at-most-exponential growth} as $|\xi| \to + \infty$ along the ray $e^{i\theta} \Real_+$.
+Explicitly, this means there are constants $\AA, \LL > 0$ such that for all $\xi \in \Xi_\theta$,
+\eqntag{\label{211215140908}
+	\big| \lambda (\xi) \big| \leq \AA e^{\LL |\xi|}
+\fullstop
+}
+
+%===============================================================================
+\paragraph{}
+The convolution product of two holomorphic functions $\lambda, \psi$ is defined by the following formula:
+\eqntag{
+	\lambda \ast \psi (\xi)
+	\coleq 
+	\int\nolimits_0^\xi \lambda (\xi - y) \psi (y) \dd{y}
+\fullstop{,}
+}
+where the path of integration is a straight line segment from $0$ to $\xi$.
+
+%===============================================================================
+\paragraph{}
+Let $f$ be a holomorphic function on a Borel disc $S = \set{ \hbar \in \Complex_\hbar ~\big|~ \Re (e^{i\theta}/\hbar) > 1/\RR }$.
+The (analytic) \dfn{Borel transform} (a.k.a., the \dfn{inverse Laplace transform}) of $f$ in the direction $\theta$ is defined by the following formula:
+\eqntag{\label{210617101748}
+	\Borel_\theta [\, f \,] (x, \xi)
+		\coleq \frac{1}{2\pi i} \oint\nolimits_\theta f(x, \hbar) e^{\xi / \hbar} \frac{\dd{\hbar}}{\hbar^2}
+\fullstop{,}
+}
+where the integral is taken along the boundary of any Borel disc
+\eqn{
+	S' = \set{ \hbar \in \Complex_\hbar ~\big|~ \Re (e^{i\theta}/\hbar) > 1/\RR' } \subset S
+}
+of strictly smaller diameter $\RR' < \RR$, traversed anticlockwise (i.e., emanating from the singular point $\hbar = 0$ in the direction $\theta - \pi/2$ and reentering in the direction $\theta + \pi/2$).
+When $\theta = 0$, we write simply $\Borel$.
+
+The fundamental fact that connects Gevrey asymptotics and the Borel transform is the following (cf. \cite[Lemma B.5]{MY2008.06492}).
+If $f = f(\hbar)$ is a holomorphic function defined on a sectorial domain $S$ with opening angle $|A| = \pi$ and $f$ admits Gevrey asymptotics as $\hbar \to 0$ along the \textit{closed} arc $\bar{A}$, then the analytic Borel transform $\lambda (\xi) = \Borel_\theta [f] (\xi)$ defines a holomorphic function on a tubular neighbourhood $\Xi_\theta$ of some thickness $\epsilon > 0$.
+Moreover, its Laplace transform in the direction $\theta$ is well-defined and satisfies $\Laplace_\theta [\lambda] = f$.
+
+%===============================================================================
+\paragraph{}
+Similarly, for a power series $\hat{f} (\hbar)$, the (formal) \dfn{Borel transform} is defined by
+\eqntag{
+	\hat{\lambda} (\xi) =
+	\hat{\Borel} [ \, \hat{f} \, ] (\xi)
+		\coleq \sum_{k=0}^\infty \lambda_k \xi^k
+\qtext{where}
+	\lambda_k \coleq \tfrac{1}{k!} f_{k+1}
+\fullstop
+}
+The fundamental fact that connects Gevrey power series and the formal Borel transform is the following (cf. \cite[Lemma B.8]{MY2008.06492}).
+If $\hat{f}$ is a Gevrey power series, then its formal Borel transform $\hat{\lambda}$ is a convergent power series in $\xi$.
+Furthermore, a Gevrey power series $\hat{f} (\hbar)$ is called a \dfn{Borel summable series} in the direction $\theta$ if its convergent Borel transform $\hat{\lambda} (\xi)$ admits an analytic continuation $\lambda (\xi) = \rm{AnCont}_\theta [\, \hat{\lambda} \,] (\xi)$ to a tubular neighbourhood $\Xi_\theta$ of the ray $e^{i\theta} \Real_+$ with at-most-exponential growth in $\xi$ at infinity in $\Xi_\theta$.
+If this is the case, the Laplace transform $\Laplace_\theta [\lambda] (\hbar)$ is well-defined and defines a holomorphic function $f(\hbar)$ on some Borel disc $S$ bisected by the direction $\theta$, and we say that $f(\hbar)$ is the \dfn{Borel resummation} in direction $\theta$ of the formal power series $\hat{f} (\hbar)$, and we write
+\eqn{
+	f (\hbar) = \cal{S}_\theta \big[ \, \hat{f} (\hbar) \, \big] (\hbar)
+\fullstop
+}
+If $\theta = 0$, we write simply $\cal{S}$.
+Expressly, we have the following formulas:
+\eqn{
+	\cal{S}_\theta \big[ \, \hat{f} (\hbar) \, \big] (\hbar)
+	= \Laplace_\theta \big[ \, \lambda \, \big] (\hbar)
+	= \Laplace_\theta \big[ \, \rm{AnCont}_\theta [\, \hat{\lambda} \,] \, \big] (\hbar)
+\fullstop
+}
+Thus, Borel resummation $\cal{S}_\theta$ can be seen as a map from the set of (germs of) holomorphic functions $f$ on $S$ with $|A| = \pi$ satisfying \eqref{210225134416} to the set of Borel summable power series.
+One of the most fundamental theorems in Gevrey asymptotics and Borel-Laplace theory is a theorem of Nevanlinna \cite[pp.44-45]{nevanlinna1918theorie}\footnote{It was rediscovered and clarified decades later by Sokal \cite{MR558468}; see also \cite[p.182]{zbMATH00797135}, \cite[Theorem 5.3.9]{MR3495546}, as well as \cite[§B.3]{MY2008.06492}.}, which says that this map $\cal{S}_\theta$ is invertible and its inverse is the asymptotic expansion $\ae$.
+
+
+
+
+
+%===============================================================================
+%===============================================================================
+\subsection{Some Useful Elementary Estimates}
+%===============================================================================
+%===============================================================================
+
+Here, for reference, we collect some elementary estimates used in this paper.
+Their proofs are straightforward (see \cite[Appendix C.4]{MY2008.06492}).
+
+\begin{lem}{180824194855}
+For any $\RR \geq 0$, any $\LL \geq 0$, and any nonnegative integer $n$,
+\eqn{
+	\int_0^{\RR} \frac{r^n}{n!} e^{\LL r} \dd{r}
+		\leq \frac{\RR^{n+1}}{(n+1)!} e^{\LL \RR}
+\fullstop
+}	
+\end{lem}
+
+\begin{lem}{211205075846}
+Let $j_1, \ldots, j_m$ be nonnegative integers and put $n \coleq j_1 + \cdots + j_m$.
+Let $f_{j_1}, \ldots, f_{j_m}$ be holomorphic functions on $\Xi \coleq \set{\xi ~\big|~ \op{dist} (\xi, \Real_+) < \epsilon}$ for some $\epsilon > 0$.
+If there are constants $\MM_{j_1}, \ldots, \MM_{j_m}, \LL \geq 0$ such that
+\eqn{
+	\big| f_{j_i} (\xi) \big| \leq \MM_{j_i} \frac{|\xi|^{j_i}}{j_i!} e^{\LL |\xi|}
+\rlap{\qquad $\forall \xi \in \Xi$\fullstop{,}}
+}
+then their total convolution product satisfies the following bound:
+\eqn{
+	\big| f_{j_1} \ast \cdots \ast f_{j_m} (\xi) \big| 
+		\leq \MM_{j_1} \cdots \MM_{j_m} \frac{|\xi|^{n+m-1}}{(n+m-1)!} e^{\LL |\xi|}
+\rlap{\qqquad $\forall \xi \in \Xi$\fullstop}
+}
+\end{lem}
+
+
+
+
+
+
+
+%===============================================================================
+%:	APPENDIX ENDS
+%===============================================================================
+\end{appendices}
+
+
+
+
+
+%===============================================================================
+%:	REFERENCES
+%===============================================================================
+%\newpage
+%\mbox{}
+%
+%\vspace{-60pt}
+\begin{adjustwidth}{-2cm}{-1.5cm}
+{\footnotesize
+\bibliographystyle{nikolaev}
+%\bibliography{References}
+\bibliography{/Users/Nikita/Documents/Library/References}
+}
+\end{adjustwidth}
+%===============================================================================
+%:	DOCUMENT ENDS
+%===============================================================================
+\end{document}
