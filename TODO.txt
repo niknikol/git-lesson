@@ -1,1 +1,8 @@
 Blah Blah
+
+- Create a repo (done)
+- Add file to repo (done)
+- Check out git history (done)
+- Get more coffee
+- Make a change of on GitHub
+- Pull from GitHub
